@@ -7,29 +7,7 @@
 
 import XCTest
 import Domain
-
-//classe local para parar o error
-class RemoteAddAccount {
-    
-    //variavel interna
-    private var url: URL
-    var httpClient: HttpPostClient
-    
-    init(url: URL, httpClient: HttpPostClient) {
-        self.url = url
-        self.httpClient = httpClient
-    }
-    
-    func add(addAccountModel: AddAccountModel) {
-        //transformando o modelo em data
-        httpClient.post(to: url, with: addAccountModel.toData())
-    }
-}
-
-//PROTOCOL
-protocol HttpPostClient {
-    func post(to url: URL, with data: Data?)
-}
+import Data
 
 
 class RemoteAddAccountTest: XCTestCase {
@@ -39,22 +17,16 @@ class RemoteAddAccountTest: XCTestCase {
         
         //simulando uma url
         let url = URL(string: "http://any_ulr.com.br")!
-        
-        
-        //protocolo
-        //let httpClientSpy = HttpClientSpy()
-        
-        
+
         //sut -> system under test
         let (sut, httpClientSpy) = makeSUT(url: url)
         //let sut = RemoteAddAccount(url: url, httpClient: httpClientSpy)
         
-        
         //metodo add chama um metodo no httpClient
         sut.add(addAccountModel: makeAccountModel())
         
-        //metodo validador
-        XCTAssertEqual(httpClientSpy.url, url)
+        //Validando a quantidade e o valor da url
+        XCTAssertEqual(httpClientSpy.urls, [url])
      }
     
     
@@ -62,18 +34,7 @@ class RemoteAddAccountTest: XCTestCase {
      func test_add_shoul_call_httpClient_with_correct_data() {
         
         let (sut,httpClientSpy) = makeSUT()
-        
-        //simulando uma url
-        //let url = URL(string: "http://any_ulr.com.br")!
-        
-        
-        //protocolo
-        //let httpClientSpy = HttpClientSpy()
-        
-    
-        //sut -> system under test
-        //let sut = RemoteAddAccount(url: url, httpClient: httpClientSpy)
-        
+
         let addAccountModel = makeAccountModel()
         //metodo add chama um metodo no httpClient
         sut.add(addAccountModel: makeAccountModel())
@@ -81,7 +42,20 @@ class RemoteAddAccountTest: XCTestCase {
         //metodo validador
         XCTAssertEqual(httpClientSpy.data, addAccountModel.toData())
      }
+    
+    
+    //tetes do callback
+    func test_add_should_complete_with_error_if_client_fails() {
+       let (sut,httpClientSpy) = makeSUT()
+       let addAccountModel = makeAccountModel()
+       sut.add(addAccountModel: makeAccountModel())
+       XCTAssertEqual(httpClientSpy.data, addAccountModel.toData())
+    }
 }
+
+
+
+
 
 
 //CLASSE LOCAL SIMULANDO A CLASSE REAL-Helps
@@ -100,12 +74,13 @@ extension RemoteAddAccountTest {
     
     //classe HttpClientSpy para tratar o protocol
     class HttpClientSpy: HttpPostClient {
-        var url: URL?
+        var urls = [URL]()
         var data: Data? //dados genericos que devem ser generalizados
         
         func post(to url: URL, with data: Data?) {
-            self.url = url
+            self.urls.append(url)
             self.data = data
         }
     }
 }
+    
