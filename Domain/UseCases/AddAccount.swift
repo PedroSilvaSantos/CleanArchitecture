@@ -9,7 +9,7 @@ import Foundation
 
 public protocol AddAccount {
     //operacao assincrono, como deveremos esperar o resultado da api, vamos criar um callback
-    func add(addAccountModel: AddAccountModel, completion: @escaping (Result <Accountmodel, Error>) -> Void)
+    func add(addAccountModel: AddAccountModel, completion: @escaping (Result <Accountmodel, DomainErros>) -> Void)
     //receber alguns dados do cadastro, atraves de um model
 }
 

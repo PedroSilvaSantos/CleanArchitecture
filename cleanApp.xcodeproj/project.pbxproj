@@ -98,7 +98,6 @@
 		62323A4526C1D94D00E1564B /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
-				62323A4A26C1E0EF00E1564B /* New Group */,
 				6246BE5926BACFD5003393BF /* AddAccount.swift */,
 			);
 			path = UseCases;
@@ -136,13 +135,6 @@
 				6246BE6F26BAD2E6003393BF /* RemoteAddAccountTests.swift */,
 			);
 			path = UseCases;
-			sourceTree = "<group>";
-		};
-		62323A4A26C1E0EF00E1564B /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		62323A4B26C1E0F700E1564B /* Erros */ = {

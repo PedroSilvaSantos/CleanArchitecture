@@ -49,19 +49,22 @@ class RemoteAddAccountTest: XCTestCase {
        let (sut,httpClientSpy) = makeSUT()
         //implementando o expectation para metodos assyncronos
         let exp = expectation(description: "waiting")
-        sut.add(addAccountModel: makeAccountModel()) { error in
-            XCTAssertEqual(error, .unexpected)
+        sut.add(addAccountModel: makeAccountModel()) { result in
+            switch result {
+            case .failure(let error): XCTAssertEqual(error, .unexpected)
+            case .success: XCTFail("Expected error receive \(result) instead")
+            }
             exp.fulfill()
         }
         httpClientSpy.completionWithError(.noConectivity)
         //aguaradar o fulfill ser chamado
         wait(for: [exp], timeout: 1)
     }
+    
+    func test_add_should_complete_with_account_complete_whith_data() {
+
+    }
 }
-
-
-
-
 
 
 //CLASSE LOCAL SIMULANDO A CLASSE REAL-Helps
@@ -82,16 +85,16 @@ extension RemoteAddAccountTest {
     class HttpClientSpy: HttpPostClient {
         var urls = [URL]()
         var data: Data? //dados genericos que devem ser generalizados
-        var completion: ((HttpError) -> Void)?
+        var completion: ((Result<Data, HttpError>) -> Void)?
         
-    func post(to url: URL, with data: Data?, completion: @escaping (HttpError) -> Void) {
+    func post(to url: URL, with data: Data?, completion: @escaping (Result<Data, HttpError>) -> Void) {
             self.urls.append(url)
             self.data = data
         self.completion = completion
         }
         
         func completionWithError(_ error: HttpError) {
-            completion?(error)
+            completion?(.failure(.noConectivity))
         }
     }
 }
