@@ -21,18 +21,16 @@ class RemoteAddAccount {
     }
     
     func add(addAccountModel: AddAccountModel) {
+        //transformando o modelo em data
         let data = try? JSONEncoder().encode(addAccountModel)
         httpClient.post(to: url, with: data)
     }
 }
 
-
 //PROTOCOL
 protocol HttpPostClient {
     func post(to url: URL, with data: Data?)
 }
-
-
 
 
 class RemoteAddAccountTest: XCTestCase {
@@ -45,11 +43,12 @@ class RemoteAddAccountTest: XCTestCase {
         
         
         //protocolo
-        let httpClientSpy = HttpClientSpy()
+        //let httpClientSpy = HttpClientSpy()
         
         
         //sut -> system under test
-        let sut = RemoteAddAccount(url: url, httpClient: httpClientSpy)
+        let (sut, httpClientSpy) = makeSUT(url: url)
+        //let sut = RemoteAddAccount(url: url, httpClient: httpClientSpy)
         
         
         //metodo add chama um metodo no httpClient
@@ -60,21 +59,21 @@ class RemoteAddAccountTest: XCTestCase {
      }
     
     
-    
-    
     //testando o caso de uso, validando o data
      func test_add_shoul_call_httpClient_with_correct_data() {
         
+        let (sut,httpClientSpy) = makeSUT()
+        
         //simulando uma url
-        let url = URL(string: "http://any_ulr.com.br")!
+        //let url = URL(string: "http://any_ulr.com.br")!
         
         
         //protocolo
-        let httpClientSpy = HttpClientSpy()
+        //let httpClientSpy = HttpClientSpy()
         
-        
+    
         //sut -> system under test
-        let sut = RemoteAddAccount(url: url, httpClient: httpClientSpy)
+        //let sut = RemoteAddAccount(url: url, httpClient: httpClientSpy)
         
         //metodo add chama um metodo no httpClient
         sut.add(addAccountModel: makeAccountModel())
@@ -91,9 +90,15 @@ class RemoteAddAccountTest: XCTestCase {
 //CLASSE LOCAL SIMULANDO A CLASSE REAL-Helps
 extension RemoteAddAccountTest {
     
-    //padrão de designer: Factory
+    //padrão de designer pattern: Factory
     func makeAccountModel() -> AddAccountModel {
         return AddAccountModel(name: "any_name", email: "any_email", password: "any_password", passwordConfirmation: "any_password")
+    }
+    
+    func makeSUT(url: URL = URL(string: "http://any_ulr.com.br")!) -> (sut: RemoteAddAccount, httpClientSpy: HttpClientSpy) { //tupla
+        let httpClientSpy = HttpClientSpy()
+        let sut = RemoteAddAccount(url: url, httpClient: httpClientSpy)
+        return (sut, httpClientSpy)
     }
     
     //classe HttpClientSpy para tratar o protocol
