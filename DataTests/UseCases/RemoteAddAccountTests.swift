@@ -18,12 +18,12 @@ class RemoteAddAccountTest: XCTestCase {
         //simulando uma url
         let url = URL(string: "http://any_ulr.com.br")!
 
-        //sut -> system under test
+        //sut -> system under test - passando uma tupla
         let (sut, httpClientSpy) = makeSUT(url: url)
         //let sut = RemoteAddAccount(url: url, httpClient: httpClientSpy)
         
         //metodo add chama um metodo no httpClient
-        sut.add(addAccountModel: makeAccountModel()) {_ in }
+        sut.add(addAccountModel: makeAddAccountModel()) {_ in }
         
         //Validando a quantidade e o valor da url
         XCTAssertEqual(httpClientSpy.urls, [url])
@@ -35,9 +35,9 @@ class RemoteAddAccountTest: XCTestCase {
         
         let (sut,httpClientSpy) = makeSUT()
 
-        let addAccountModel = makeAccountModel()
+        let addAccountModel = makeAddAccountModel()
         //metodo add chama um metodo no httpClient
-        sut.add(addAccountModel: makeAccountModel()) {_ in }
+        sut.add(addAccountModel: makeAddAccountModel()) {_ in }
         
         //metodo validador
         XCTAssertEqual(httpClientSpy.data, addAccountModel.toData())
@@ -49,10 +49,10 @@ class RemoteAddAccountTest: XCTestCase {
        let (sut,httpClientSpy) = makeSUT()
         //implementando o expectation para metodos assyncronos
         let exp = expectation(description: "waiting")
-        sut.add(addAccountModel: makeAccountModel()) { result in
+        sut.add(addAccountModel: makeAddAccountModel()) { result in
             switch result {
             case .failure(let error): XCTAssertEqual(error, .unexpected)
-            case .success: XCTFail("Expected error receive \(result) instead")
+            case .success: XCTFail("Expected error received \(result) instead")
             }
             exp.fulfill()
         }
@@ -61,8 +61,22 @@ class RemoteAddAccountTest: XCTestCase {
         wait(for: [exp], timeout: 1)
     }
     
+    //case de sucesso no callback
     func test_add_should_complete_with_account_complete_whith_data() {
-
+        let (sut,httpClientSpy) = makeSUT()
+         let exp = expectation(description: "waiting")
+        let expectedAccount = makeAccountModel()
+         sut.add(addAccountModel: makeAddAccountModel()) { result in
+             switch result {
+             case .failure: XCTFail("Expected sucess received \(result) instead")
+             case .success(let receivedAccount): XCTAssertEqual(receivedAccount, expectedAccount)
+                print(receivedAccount, expectedAccount)
+             }
+             exp.fulfill()
+         }
+        //devolver um data de account, antes teremos que transformar o retorno para um data
+        httpClientSpy.completionWithData(expectedAccount.toData()!)
+         wait(for: [exp], timeout: 1)
     }
 }
 
@@ -71,15 +85,20 @@ class RemoteAddAccountTest: XCTestCase {
 extension RemoteAddAccountTest {
     
     //padrão de designer pattern: Factory
-    func makeAccountModel() -> AddAccountModel {
+    func makeAddAccountModel() -> AddAccountModel {
         return AddAccountModel(name: "any_name", email: "any_email", password: "any_password", passwordConfirmation: "any_password")
     }
     
-    func makeSUT(url: URL = URL(string: "http://any_ulr.com.br")!) -> (sut: RemoteAddAccount, httpClientSpy: HttpClientSpy) { //tupla
+    func makeAccountModel() -> Accountmodel {
+        return Accountmodel(id: "any_id", name: "any_name", email: "any_email", password: "any_password")
+    }
+    
+    func makeSUT(url: URL = URL(string: "http://any_ulr.com.br")!) -> (sut: RemoteAddAccount, httpClientSpy: HttpClientSpy) { //a resposta será um tupla
         let httpClientSpy = HttpClientSpy()
         let sut = RemoteAddAccount(url: url, httpClient: httpClientSpy)
         return (sut, httpClientSpy)
     }
+    
     
     //classe HttpClientSpy para tratar o protocol
     class HttpClientSpy: HttpPostClient {
@@ -90,11 +109,15 @@ extension RemoteAddAccountTest {
     func post(to url: URL, with data: Data?, completion: @escaping (Result<Data, HttpError>) -> Void) {
             self.urls.append(url)
             self.data = data
-        self.completion = completion
+            self.completion = completion
         }
         
         func completionWithError(_ error: HttpError) {
             completion?(.failure(.noConectivity))
+        }
+        
+        func completionWithData(_ data: Data) {
+            completion?(.success(data))
         }
     }
 }

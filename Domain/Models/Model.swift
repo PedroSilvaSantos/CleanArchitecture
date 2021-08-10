@@ -7,7 +7,8 @@
 
 import Foundation
 
-public protocol Model: Encodable {}
+//Utilizando o Equatable para que qlq modulo que for implementado poderá ser comparado, mudando para Codable para cobrir os dois cennarios Decodable & Encodable
+public protocol Model: Codable,Equatable {}
 
 public extension Model {
     func toData() -> Data? {
