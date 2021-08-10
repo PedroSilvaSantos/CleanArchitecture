@@ -47,54 +47,29 @@ class RemoteAddAccountTest: XCTestCase {
     //tetes do callback
     func test_add_should_complete_with_error_if_client_fails() {
        let (sut,httpClientSpy) = makeSUT()
-        //implementando o expectation para metodos assyncronos
-        let exp = expectation(description: "waiting")
-        sut.add(addAccountModel: makeAddAccountModel()) { result in
-            switch result {
-            case .failure(let error): XCTAssertEqual(error, .unexpected)
-            case .success: XCTFail("Expected error received \(result) instead")
-            }
-            exp.fulfill()
+        expect(sut, completeWith: .failure(.unexpected)) {
+            //executa a action no caso de error
+            httpClientSpy.completionWithError(.noConectivity)
         }
-        httpClientSpy.completionWithError(.noConectivity)
-        //aguaradar o fulfill ser chamado
-        wait(for: [exp], timeout: 1)
     }
     
     //case de sucesso no callback
     func test_add_should_complete_with_account_complete_whith_data() {
         let (sut,httpClientSpy) = makeSUT()
-         let exp = expectation(description: "waiting")
         let expectedAccount = makeAccountModel()
-         sut.add(addAccountModel: makeAddAccountModel()) { result in
-             switch result {
-             case .failure: XCTFail("Expected sucess received \(result) instead")
-             case .success(let receivedAccount): XCTAssertEqual(receivedAccount, expectedAccount)
-                print(receivedAccount, expectedAccount)
-             }
-             exp.fulfill()
-         }
-        //devolver um data de account, antes teremos que transformar o retorno para um data
-        httpClientSpy.completionWithData(expectedAccount.toData()!)
-         wait(for: [exp], timeout: 1)
+        expect(sut, completeWith: .success(expectedAccount)) {
+            httpClientSpy.completionWithData(expectedAccount.toData()!)
+        }
     }
     
     //tetes de sucesso no callback, mas falhas nos dados retornados
     func test_add_should_complete_with_account_complete_whith_data_with_error_data() {
        let (sut,httpClientSpy) = makeSUT()
-        //implementando o expectation para metodos assyncronos
-        let exp = expectation(description: "waiting")
-        sut.add(addAccountModel: makeAddAccountModel()) { result in
-            switch result {
-            case .failure(let error): XCTAssertEqual(error, .unexpected)
-            case .success: XCTFail("Expected error received \(result) instead")
-            }
-            exp.fulfill()
+        expect(sut, completeWith: .failure(.unexpected)) {
+            httpClientSpy.completionWithData(Data("Invalide_data".utf8))
         }
-        httpClientSpy.completionWithData(Data("Invalide_data".utf8))
-        wait(for: [exp], timeout: 1)
     }
-}
+   }
 
 
 //CLASSE LOCAL SIMULANDO A CLASSE REAL-Helps
@@ -113,6 +88,28 @@ extension RemoteAddAccountTest {
         let httpClientSpy = HttpClientSpy()
         let sut = RemoteAddAccount(url: url, httpClient: httpClientSpy)
         return (sut, httpClientSpy)
+    }
+    
+    //enxugando os metodos de testes
+    //eu espero que a SUT complete com resultado quando alguma coisa acontencer
+    func expect(_ sut: RemoteAddAccount, completeWith expectedResult: Result<Accountmodel, DomainErros>, when action: ()-> Void ){
+         let exp = expectation(description: "waiting")
+        let expectedAccount = makeAccountModel()
+         sut.add(addAccountModel: makeAddAccountModel()) { receveidResult in
+            
+            //comparando os dois results: expectedResult com receveidResult
+             switch (expectedResult, receveidResult) {
+            //primeiro caso, ambos vão falhar
+             case (.failure(let expectedError), .failure(let receveidError)): XCTAssertEqual(expectedError, receveidError)
+             case (.success(let expectedAccount), .success(let receveidAccount)): XCTAssertEqual(expectedAccount, receveidAccount)
+                
+             //default será qlq outro caso diferenre dos dois cenarios de sucess e fail
+             default : XCTFail("Expected \(expectedResult) error received  \(receveidResult) instead")
+             }
+             exp.fulfill()
+         }
+        action()
+        wait(for: [exp], timeout: 1)
     }
     
     
