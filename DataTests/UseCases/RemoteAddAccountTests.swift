@@ -66,7 +66,7 @@ class RemoteAddAccountTest: XCTestCase {
     func test_add_should_complete_with_account_complete_whith_data_with_error_data() {
        let (sut,httpClientSpy) = makeSUT()
         expect(sut, completeWith: .failure(.unexpected)) {
-            httpClientSpy.completionWithData(Data("Invalide_data".utf8))
+            httpClientSpy.completionWithData(makeInvalideData())
      }
     }
     
@@ -91,14 +91,6 @@ extension RemoteAddAccountTest {
         return AddAccountModel(name: "any_name", email: "any_email", password: "any_password", passwordConfirmation: "any_password")
     }
     
-    func makeurl() -> URL {
-        return URL(string: "http://any_ulr.com.br")!
-    }
-    
-    func makeAccountModel() -> Accountmodel {
-        return Accountmodel(id: "any_id", name: "any_name", email: "any_email", password: "any_password")
-    }
-    
     ///MARK: construcao do SUT
     func makeSUT(url: URL = URL(string: "http://any_ulr.com.br")!,file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteAddAccount, httpClientSpy: HttpClientSpy) { //a resposta será um tupla
         let httpClientSpy = HttpClientSpy()
@@ -111,13 +103,6 @@ extension RemoteAddAccountTest {
         return (sut, httpClientSpy)
     }
     
-    ///MARK: testes de memory leak
-    func checkMemoryleak(for instance: AnyObject, file: StaticString = #filePath, line: UInt = #line)  {
-        addTeardownBlock {[weak instance] in
-            XCTAssertNil(instance, file: file, line: line)
-        }
-    }
-     
     //enxugando os metodos de testes
     //eu espero que a SUT complete com resultado quando alguma coisa acontencer
     //Se o retorno do metodo add for error, o expectedResult deverá ser um erro tbm
@@ -140,28 +125,6 @@ extension RemoteAddAccountTest {
          }
         action()
         wait(for: [exp], timeout: 1)
-    }
-    
-    
-    //classe HttpClientSpy para tratar o protocol
-    class HttpClientSpy: HttpPostClient {
-        var urls = [URL]()
-        var data: Data? //dados genericos que devem ser generalizados
-        var completion: ((Result<Data, HttpError>) -> Void)?
-        
-    func post(to url: URL, with data: Data?, completion: @escaping (Result<Data, HttpError>) -> Void) {
-            self.urls.append(url)
-            self.data = data
-            self.completion = completion
-        }
-        
-        func completionWithError(_ error: HttpError) {
-            completion?(.failure(.noConectivity))
-        }
-        
-        func completionWithData(_ data: Data) {
-            completion?(.success(data))//dados genericos
-        }
     }
 }
     
