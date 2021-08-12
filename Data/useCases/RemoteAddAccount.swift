@@ -19,7 +19,14 @@ public final class RemoteAddAccount: AddAccount {
     }
     
     public func add(addAccountModel: AddAccountModel, completion: @escaping (Result<Accountmodel, DomainErros>) -> Void) {
-        httpClient.post(to: url, with: addAccountModel.toData()) { result in
+        
+        //corrigindo o problema de memory leak inserindo essa propriedade no metodo[weak self]
+        //a partir desse momento a referencia dessa classe RemoteAddAccount é fraca, ela morrendo poderá liberar memoria da variavel
+        httpClient.post(to: url, with: addAccountModel.toData()) { [weak self] result in
+            
+            //criando um error de memory leak
+            var memory = self?.httpClient
+            
             switch result {
             case .success(let data):
                 if let model: Accountmodel = data.toModel() {

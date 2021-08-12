@@ -88,16 +88,30 @@ extension RemoteAddAccountTest {
         return Accountmodel(id: "any_id", name: "any_name", email: "any_email", password: "any_password")
     }
     
-    func makeSUT(url: URL = URL(string: "http://any_ulr.com.br")!) -> (sut: RemoteAddAccount, httpClientSpy: HttpClientSpy) { //a resposta será um tupla
+    ///MARK: construcao do SUT
+    func makeSUT(url: URL = URL(string: "http://any_ulr.com.br")!,file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteAddAccount, httpClientSpy: HttpClientSpy) { //a resposta será um tupla
         let httpClientSpy = HttpClientSpy()
-        let sut = RemoteAddAccount(url: url, httpClient: httpClientSpy)
+        let sut = RemoteAddAccount(url: url, httpClient: httpClientSpy)//classe concreta, não é nulable
+        
+        //testando memory leak dentro das classes
+        //para funcionar deveremos colocar o SUT como [weak suv], referencia fraca, dessa forma poderá ser desalocada ao termino da classe
+        checkMemoryleak(for: sut,file: file, line: line)
+        checkMemoryleak(for: httpClientSpy,file: file, line: line)
         return (sut, httpClientSpy)
+    }
+    
+    ///MARK: testes de memory leak
+    func checkMemoryleak(for instance: AnyObject, file: StaticString = #filePath, line: UInt = #line)  {
+        addTeardownBlock {[weak instance] in
+            XCTAssertNil(instance, file: file, line: line)
+        }
     }
      
     //enxugando os metodos de testes
     //eu espero que a SUT complete com resultado quando alguma coisa acontencer
     //Se o retorno do metodo add for error, o expectedResult deverá ser um erro tbm
-    func expect(_ sut: RemoteAddAccount, completeWith expectedResult: Result<Accountmodel, DomainErros>, when action: ()-> Void ){
+    //file: StaticString = #filePath, line, pegando a linha que parou o erro
+    func expect(_ sut: RemoteAddAccount, completeWith expectedResult: Result<Accountmodel, DomainErros>, when action: ()-> Void, file: StaticString = #filePath, line: UInt = #line){
          let exp = expectation(description: "waiting")
          let expectedAccount = makeAccountModel()
          sut.add(addAccountModel: makeAddAccountModel()) { receveidResult in
@@ -105,11 +119,11 @@ extension RemoteAddAccountTest {
             //comparando os dois results: expectedResult com receveidResult
              switch (expectedResult, receveidResult) {
             //primeiro caso, ambos vão falhar
-             case (.failure(let expectedError), .failure(let receveidError)): XCTAssertEqual(expectedError, receveidError)
-             case (.success(let expectedAccount), .success(let receveidAccount)): XCTAssertEqual(expectedAccount, receveidAccount)
+             case (.failure(let expectedError), .failure(let receveidError)): XCTAssertEqual(expectedError, receveidError, file: file, line: line)
+             case (.success(let expectedAccount), .success(let receveidAccount)): XCTAssertEqual(expectedAccount, receveidAccount, file: file, line: line)
                 
              //default será qlq outro caso diferenre dos dois cenarios de sucess e fail
-             default : XCTFail("Expected \(expectedResult) error received  \(receveidResult) instead")
+             default : XCTFail("Expected \(expectedResult) error received  \(receveidResult) instead", file: file, line: line)
              }
              exp.fulfill()
          }
