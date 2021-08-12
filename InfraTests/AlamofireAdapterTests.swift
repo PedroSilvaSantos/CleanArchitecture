@@ -16,7 +16,7 @@ class AlamofireAdapter {
         self.session = session
     }
     func post(to url: URL) {
-        session.request(url).resume()
+        session.request(url, method: .post).resume()
     }
 }
 
@@ -39,6 +39,7 @@ class AlamofireAdapterTests: XCTestCase {
         let exp = expectation(description: "waiting")
         URLProtocolStub.observeRequest { (request) in
             XCTAssertEqual(url, request.url)
+            XCTAssertEqual("POST", request.httpMethod)
             exp.fulfill()
         }
         wait(for: [exp], timeout: 70.0)
@@ -70,29 +71,3 @@ class URLProtocolStub: URLProtocol {
     
     override open func stopLoading() {}
 }
-
-
-
-
-
-
-
-
-
-
-
-//    public init(request: URLRequest, cachedResponse: CachedURLResponse?, client: URLProtocolClient?)
-//    open var client: URLProtocolClient? { get }
-//    open var request: URLRequest { get }
-//    @NSCopying open var cachedResponse: CachedURLResponse? { get }
-//
-//    open class func canInit(with request: URLRequest) -> Bool
-//    open class func canonicalRequest(for request: URLRequest) -> URLRequest
-//    open class func requestIsCacheEquivalent(_ a: URLRequest, to b: URLRequest) -> Bool
-//    open func startLoading()
-//    open func stopLoading()
-//    open class func property(forKey key: String, in request: URLRequest) -> Any?
-//    open class func setProperty(_ value: Any, forKey key: String, in request: NSMutableURLRequest)
-//    open class func removeProperty(forKey key: String, in request: NSMutableURLRequest)
-//    open class func registerClass(_ protocolClass: AnyClass) -> Bool
-//    open class func unregisterClass(_ protocolClass: AnyClass)
