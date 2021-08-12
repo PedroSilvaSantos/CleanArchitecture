@@ -16,16 +16,16 @@ class RemoteAddAccountTest: XCTestCase {
      func test_add_shoul_call_httpClient_with_correct_url() {
         
         //simulando uma url
-        let url = URL(string: "http://any_ulr.com.br")!
+        let url = makeurl()
 
         //sut -> system under test - passando uma tupla
         let (sut, httpClientSpy) = makeSUT(url: url)
         //let sut = RemoteAddAccount(url: url, httpClient: httpClientSpy)
         
         //metodo add chama um metodo no httpClient
-        sut.add(addAccountModel: makeAddAccountModel()) {_ in }
+        sut.add(addAccountModel: makeAddAccountModel()) {_ in } //passando nada no completion
         
-        //Validando a quantidade e o valor da url
+        //Validando a quantidade pelo array de url e validando o valor da url
         XCTAssertEqual(httpClientSpy.urls, [url])
      }
     
@@ -44,7 +44,7 @@ class RemoteAddAccountTest: XCTestCase {
      }
     
     
-    //tetes do callback
+    //testes do callback
     func test_add_should_complete_with_error_if_client_fails() {
        let (sut,httpClientSpy) = makeSUT()
         expect(sut, completeWith: .failure(.unexpected)) {
@@ -67,7 +67,7 @@ class RemoteAddAccountTest: XCTestCase {
        let (sut,httpClientSpy) = makeSUT()
         expect(sut, completeWith: .failure(.unexpected)) {
             httpClientSpy.completionWithData(Data("Invalide_data".utf8))
-        }
+     }
     }
    }
 
@@ -80,6 +80,10 @@ extension RemoteAddAccountTest {
         return AddAccountModel(name: "any_name", email: "any_email", password: "any_password", passwordConfirmation: "any_password")
     }
     
+    func makeurl() -> URL {
+        return URL(string: "http://any_ulr.com.br")!
+    }
+    
     func makeAccountModel() -> Accountmodel {
         return Accountmodel(id: "any_id", name: "any_name", email: "any_email", password: "any_password")
     }
@@ -89,12 +93,13 @@ extension RemoteAddAccountTest {
         let sut = RemoteAddAccount(url: url, httpClient: httpClientSpy)
         return (sut, httpClientSpy)
     }
-    
+     
     //enxugando os metodos de testes
     //eu espero que a SUT complete com resultado quando alguma coisa acontencer
+    //Se o retorno do metodo add for error, o expectedResult deverá ser um erro tbm
     func expect(_ sut: RemoteAddAccount, completeWith expectedResult: Result<Accountmodel, DomainErros>, when action: ()-> Void ){
          let exp = expectation(description: "waiting")
-        let expectedAccount = makeAccountModel()
+         let expectedAccount = makeAccountModel()
          sut.add(addAccountModel: makeAddAccountModel()) { receveidResult in
             
             //comparando os dois results: expectedResult com receveidResult
@@ -130,7 +135,7 @@ extension RemoteAddAccountTest {
         }
         
         func completionWithData(_ data: Data) {
-            completion?(.success(data))
+            completion?(.success(data))//dados genericos
         }
     }
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 public extension Data {
-    //transformando um data para model
+    //serializando um data para um model
     func toModel<T: Decodable>() -> T? {
         return try? JSONDecoder().decode(T.self, from: self)
     }
