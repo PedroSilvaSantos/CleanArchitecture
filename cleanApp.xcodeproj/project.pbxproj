@@ -20,9 +20,6 @@
 		62323A5E26C4C80C00E1564B /* AccountModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62323A5D26C4C80C00E1564B /* AccountModelFactory.swift */; };
 		62323A6D26C4C96600E1564B /* Infra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62323A6426C4C96600E1564B /* Infra.framework */; };
 		62323A7226C4C96600E1564B /* AlamofireAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62323A7126C4C96600E1564B /* AlamofireAdapterTests.swift */; };
-		62323A7B26C4CB9F00E1564B /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6246BE6226BAD2E6003393BF /* Data.framework */; };
-		62323A7C26C4CB9F00E1564B /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6246BE6226BAD2E6003393BF /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		62323A8026C4CBE000E1564B /* RemoteAddAccountTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6246BE6F26BAD2E6003393BF /* RemoteAddAccountTests.swift */; };
 		62323A8226C4CC1900E1564B /* TestesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62323A5826C4C64600E1564B /* TestesFactory.swift */; };
 		62323A8326C4CC2200E1564B /* TestesExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62323A5626C4C54B00E1564B /* TestesExtensions.swift */; };
 		62323A8426C4CC2700E1564B /* AccountModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62323A5D26C4C80C00E1564B /* AccountModelFactory.swift */; };
@@ -76,7 +73,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				62323A7C26C4CB9F00E1564B /* Data.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,7 +138,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				62323A7B26C4CB9F00E1564B /* Data.framework in Frameworks */,
 				F40538C1C865F1C9F16F59EC /* Pods_Infra.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -727,7 +722,6 @@
 			files = (
 				62323A7226C4C96600E1564B /* AlamofireAdapterTests.swift in Sources */,
 				62323A8326C4CC2200E1564B /* TestesExtensions.swift in Sources */,
-				62323A8026C4CBE000E1564B /* RemoteAddAccountTests.swift in Sources */,
 				62323A8426C4CC2700E1564B /* AccountModelFactory.swift in Sources */,
 				62323A8226C4CC1900E1564B /* TestesFactory.swift in Sources */,
 			);
