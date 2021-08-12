@@ -24,9 +24,12 @@ public final class RemoteAddAccount: AddAccount {
         //a partir desse momento a referencia dessa classe RemoteAddAccount é fraca, ela morrendo poderá liberar memoria da variavel
         httpClient.post(to: url, with: addAccountModel.toData()) { [weak self] result in
             
-            //criando um error de memory leak
+            //MARK: teste criando um error de memory leak
             var memory = self?.httpClient
             
+            //MARK: resolvendo problema de classe desalocada da memoria
+            //caso o self seja == nil, o metodo do completion não deverá ser acionado, saindo metodo nesse momento
+            guard self != nil else { return }
             switch result {
             case .success(let data):
                 if let model: Accountmodel = data.toModel() {

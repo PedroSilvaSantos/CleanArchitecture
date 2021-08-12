@@ -69,7 +69,18 @@ class RemoteAddAccountTest: XCTestCase {
             httpClientSpy.completionWithData(Data("Invalide_data".utf8))
      }
     }
+    
+    ///MARK: testes de falha dealoc, não deve executar o completion caso o sut estiver null
+    func test_add_should_not_complete_if_sut_has_been_deallocted() {
+       let httpClientSpy = HttpClientSpy()
+        var sut: RemoteAddAccount? = RemoteAddAccount(url: makeurl() , httpClient: httpClientSpy)
+        var result: Result<Accountmodel, DomainErros>?
+        sut?.add(addAccountModel: makeAddAccountModel()) { result = $0 }
+        sut = nil
+        httpClientSpy.completionWithError(.noConectivity)
+        XCTAssertNil(result)
    }
+}
 
 
 //CLASSE LOCAL SIMULANDO A CLASSE REAL-Helps
