@@ -8,8 +8,17 @@
 import XCTest
 
 
+class AlamofireAdapter {
+    
+    func post(to url: URL) {
+        
+    }
+}
+
 class AlamofireAdapterTests: XCTestCase {
     func test_() throws {
-
+        let url = makeurl()
+        let sut = AlamofireAdapter()
+        sut.post(to: url)
     }
 }
