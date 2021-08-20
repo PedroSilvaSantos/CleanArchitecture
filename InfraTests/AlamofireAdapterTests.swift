@@ -15,13 +15,16 @@ class AlamofireAdapter {
     init(session: Session = .default) {
         self.session = session
     }
-    func post(to url: URL) {
-        session.request(url, method: .post).resume()
+    func post(to url: URL, with data: Data?) {
+        guard let data = data else { return }
+        //Receber um data e transformalo em um array de objetos
+        let json = try? JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) as? [String : Any]
+        session.request(url, method: .post, parameters: json, encoding: JSONEncoding.default).resume()
     }
 }
 
 class AlamofireAdapterTests: XCTestCase {
-    func test_() throws {
+    func test_post_should_make_request_with_valid_url_and_method() throws {
         let url = makeurl()
         let configurationTest = URLSessionConfiguration.default
         
@@ -32,7 +35,8 @@ class AlamofireAdapterTests: XCTestCase {
         //Ss testes serao o seguinte, se o Alamofire falhar, o que acontence com a nossa implementacao
         let sut = AlamofireAdapter(session: sessionTest) //injetar no construtor para nao usar o session default da classe de producao, evita de ir ao NetWork para validar as resposta.
         
-        sut.post(to: url)//Essa requisicao será interceptada
+        //sut.post(to: url)//Essa requisicao será interceptada
+        sut.post(to: url, with: makeValideData())
         
         
         //Como se trata de um metodo assincrono, deveremos chamar nosso expectation para aguardar o completion finalizar
@@ -40,6 +44,8 @@ class AlamofireAdapterTests: XCTestCase {
         URLProtocolStub.observeRequest { (request) in
             XCTAssertEqual(url, request.url)
             XCTAssertEqual("POST", request.httpMethod)
+            //testes para garantir que o body tem dados
+            XCTAssertNotNil(request.httpBodyStream) //o httpBody tem um bug da apple, o retorno é semple nil
             exp.fulfill()
         }
         wait(for: [exp], timeout: 70.0)

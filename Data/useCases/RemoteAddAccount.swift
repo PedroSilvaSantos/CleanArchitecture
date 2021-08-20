@@ -28,7 +28,7 @@ public final class RemoteAddAccount: AddAccount {
             var memory = self?.httpClient
             
             //MARK: resolvendo problema de classe desalocada da memoria
-            //caso o self seja == nil, o metodo do completion não deverá ser acionado, saindo metodo nesse momento
+            //caso o self seja != nil, o metodo do completion será acionado
             guard self != nil else { return }
             switch result {
             case .success(let data):

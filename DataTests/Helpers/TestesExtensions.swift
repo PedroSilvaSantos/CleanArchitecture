@@ -11,7 +11,8 @@ import XCTest
 extension XCTestCase {
     ///MARK: testes de memory leak
     func checkMemoryleak(for instance: AnyObject, file: StaticString = #filePath, line: UInt = #line)  {
-        addTeardownBlock {[weak instance] in
+        //addTeardownBlock é executado sempre ao final do testes
+        addTeardownBlock {[weak instance] in //deixei minha classe com referencia fraca para pode testar o memory leak
             XCTAssertNil(instance, file: file, line: line)
         }
     }
