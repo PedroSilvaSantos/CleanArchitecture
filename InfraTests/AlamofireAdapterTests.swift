@@ -16,8 +16,13 @@ class AlamofireAdapter {
     init(session: Session = .default) {
         self.session = session
     }
-    func post(to url: URL, with data: Data?) {
-        session.request(url, method: .post, parameters: data?.toJson(), encoding: JSONEncoding.default).resume()
+    func post(to url: URL, with data: Data?, completion: @escaping (Result<Data , HttpError>) -> Void) {
+        session.request(url, method: .post, parameters: data?.toJson(), encoding: JSONEncoding.default).responseData { (dataResponse) in
+            switch dataResponse.result {
+                case .failure: completion(.failure(.noConectivity))
+            case .success: break
+            }
+        }
     }
 }
 
@@ -37,6 +42,25 @@ class AlamofireAdapterTests: XCTestCase {
         test_request_for(url: nil , data: nil) { (request) in
             XCTAssertNil(request.httpBodyStream)
         }
+    }
+    
+    func test_post_should_complet_with_error_when_request_completes_with_error() {
+        let sut = makeSut()
+        URLProtocolStub.simulate(data: nil, response: nil, error: makeError())
+        
+        //como o metodo é assincrono, vamos criar o expectation novamente
+        let exp = expectation(description: "waiting")
+        
+        //receberá um completion com result, data e error
+        sut.post(to: makeurl(), with: makeValideData()) { result in
+            switch result {
+            case .failure(let error): XCTAssertEqual(error, .noConectivity)
+            case .success: XCTFail("Expected error got \(result) instead")
+            }
+            exp.fulfill()
+        }
+        //aguardando o metodo chamar
+        wait(for: [exp], timeout: 1)
     }
 }
 
@@ -62,7 +86,7 @@ extension AlamofireAdapterTests {
     func test_request_for(url: URL?, data: Data?, action: @escaping (URLRequest) -> Void) {
         let sut = makeSut()
         guard let url = url else {return}
-        sut.post(to: url, with: data)
+        sut.post(to: url, with: data) { _ in}
         let exp = expectation(description: "waiting")
         URLProtocolStub.observeRequest { (request) in
             action(request)
@@ -76,9 +100,19 @@ extension AlamofireAdapterTests {
 class URLProtocolStub: URLProtocol {
     static var emit: ((URLRequest) -> Void)?
     
+    static var data: Data?
+    static var response: HTTPURLResponse?
+    static var error: Error?
+    
     //Criando um escutador (Observer) e passando via completion para metodo de teste
     static func observeRequest(completion: @escaping (URLRequest) -> Void) {
         URLProtocolStub.emit = completion
+    }
+    
+    static func simulate(data: Data?, response: HTTPURLResponse?, error: Error?) {
+        URLProtocolStub.data = data
+        URLProtocolStub.response = response
+        URLProtocolStub.error = error
     }
     
     override open class func canInit(with request: URLRequest) -> Bool {
@@ -93,6 +127,22 @@ class URLProtocolStub: URLProtocol {
     override open func startLoading() {
         //Quando estiver pronto, devo executar o completion passando o request da chamada
         URLProtocolStub.emit?(request)
+        
+        //testando o response
+        if let data = URLProtocolStub.data {
+            client?.urlProtocol(self, didLoad: data)
+        }
+        
+        if let response = URLProtocolStub.response {
+            client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        }
+        
+        if let error = URLProtocolStub.error {
+            client?.urlProtocol(self, didFailWithError: error)
+        }
+        
+        //completar o request apos finalizar o proceso
+        client?.urlProtocolDidFinishLoading(self)
     }
     
     override open func stopLoading() {}
