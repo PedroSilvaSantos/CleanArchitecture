@@ -45,22 +45,7 @@ class AlamofireAdapterTests: XCTestCase {
     }
     
     func test_post_should_complet_with_error_when_request_completes_with_error() {
-        let sut = makeSut()
-        URLProtocolStub.simulate(data: nil, response: nil, error: makeError())
-        
-        //como o metodo é assincrono, vamos criar o expectation novamente
-        let exp = expectation(description: "waiting")
-        
-        //receberá um completion com result, data e error
-        sut.post(to: makeurl(), with: makeValideData()) { result in
-            switch result {
-            case .failure(let error): XCTAssertEqual(error, .noConectivity)
-            case .success: XCTFail("Expected error got \(result) instead")
-            }
-            exp.fulfill()
-        }
-        //aguardando o metodo chamar
-        wait(for: [exp], timeout: 1)
+        expectedResult(.failure(.noConectivity), when: (data: nil, response: nil, error: makeError()))
     }
 }
 
@@ -82,7 +67,6 @@ extension AlamofireAdapterTests {
         return sut
     }
     
-    
     func test_request_for(url: URL?, data: Data?, action: @escaping (URLRequest) -> Void) {
         let sut = makeSut()
         guard let url = url else {return}
@@ -101,7 +85,29 @@ extension AlamofireAdapterTests {
             action(request)
         }
     }
+    
+    func expectedResult(_ expectedResult: Result<Data, HttpError>, when stubs: (data: Data?, response: HTTPURLResponse?, error: Error?), file: StaticString = #file, line: UInt = #line) {
+        let sut = makeSut()
+        URLProtocolStub.simulate(data: stubs.data, response: stubs.response, error: stubs.error)
+        
+        let exp = expectation(description: "waiting")
+        
+        sut.post(to: makeurl(), with: makeValideData()) { receivedResult in
+            switch (expectedResult, receivedResult) {
+            case (.failure(let expectedError), .failure(let receivedError)) : XCTAssertEqual(expectedError, receivedError, file: file, line: line)
+            case (.success(let expectedData), .success(let receveidData)) : XCTAssertEqual(expectedData, receveidData, file: file, line: line)
+            default: XCTFail("Expected \(expectedResult) got \(receivedResult) instead")
+        }
+            exp.fulfill()
+            
+        }
+            wait(for: [exp], timeout: 1)
+    }
 }
+
+
+
+
 
 //MARK: Interceptar os Request
 class URLProtocolStub: URLProtocol {
