@@ -31,5 +31,10 @@ target 'Infra' do
     # Pods for testing
   end
 
+  
+  target 'UseCasesIntegrationTests' do
+   # Pods for testing
+  end
+
 	pod 'Alamofire'
 end
