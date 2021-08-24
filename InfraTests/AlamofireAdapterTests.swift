@@ -18,9 +18,13 @@ class AlamofireAdapter {
     }
     func post(to url: URL, with data: Data?, completion: @escaping (Result<Data , HttpError>) -> Void) {
         session.request(url, method: .post, parameters: data?.toJson(), encoding: JSONEncoding.default).responseData { (dataResponse) in
+            guard dataResponse.response?.statusCode != nil else {
+                return completion(.failure(.noConectivity))
+            }
             switch dataResponse.result {
                 case .failure: completion(.failure(.noConectivity))
-            case .success: break
+            case .success(let data):
+                completion(.success(data))
             }
         }
     }
@@ -46,6 +50,16 @@ class AlamofireAdapterTests: XCTestCase {
     
     func test_post_should_complet_with_error_when_request_completes_with_error() {
         expectedResult(.failure(.noConectivity), when: (data: nil, response: nil, error: makeError()))
+    }
+    
+    func test_post_should_complet_with_error_on_all_invalid_cases() {
+        expectedResult(.failure(.noConectivity), when: (data: makeValideData(), response: makeHttpResponse() , error: makeError()))
+        expectedResult(.failure(.noConectivity), when: (data: makeValideData(), response: nil , error: makeError()))
+        expectedResult(.failure(.noConectivity), when: (data: makeValideData(), response: nil , error: nil))
+        
+        expectedResult(.failure(.noConectivity), when: (data: nil, response: makeHttpResponse() , error: makeError()))
+        expectedResult(.failure(.noConectivity), when: (data: nil, response: makeHttpResponse() , error: nil))
+        expectedResult(.failure(.noConectivity), when: (data: nil, response: nil , error: nil))
     }
 }
 
