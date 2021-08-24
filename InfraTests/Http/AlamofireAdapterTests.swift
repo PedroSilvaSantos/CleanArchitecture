@@ -54,6 +54,9 @@ class AlamofireAdapterTests: XCTestCase {
     }
     
     func test_post_should_complet_with_error_when_request_completion_with_in_family_400_and_500() {
+        expectedResult(.failure(.noConectivity), when: (data: makeValideData(), response: makeHttpResponse(statusCode: 100), error: nil))
+        expectedResult(.failure(.noConectivity), when: (data: makeValideData(), response: makeHttpResponse(statusCode: 300), error: nil))
+        
         expectedResult(.failure(.badRequest), when: (data: makeValideData(), response: makeHttpResponse(statusCode: 400), error: nil))
         expectedResult(.failure(.unauthorized), when: (data: makeValideData(), response: makeHttpResponse(statusCode: 401), error: nil))
         expectedResult(.failure(.forbidden), when: (data: makeValideData(), response: makeHttpResponse(statusCode: 403), error: nil))
