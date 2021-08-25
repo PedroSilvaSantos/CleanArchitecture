@@ -13,7 +13,7 @@ import Domain
 class UseCasesIntegrationTests: XCTestCase {
 
      func test_add_account() {
-        let url = URL(string: "https://clean-node-api.herokuapp.com/api/signup")!
+        let url = URL(string: "https://fordevs.herokuapp.com/api/signup")!
         let alamofireAdapter = AlamofireAdapter()
         let sut = RemoteAddAccount(url: url , httpClient: alamofireAdapter)
         
@@ -24,13 +24,11 @@ class UseCasesIntegrationTests: XCTestCase {
             switch result {
             case .failure: XCTFail("Expected sucess got \(result) instead")
             case .success(let account):
-                XCTAssertNotNil(account.id)
-                XCTAssertEqual(account.name, accountModel.name)
-                XCTAssertEqual(account.email, accountModel.email)
+                XCTAssertNotNil(account.accessToken)
             }
             exp.fulfill()
         }
-        wait(for: [exp], timeout: 100)
+        wait(for: [exp], timeout: 20)
     }
 }
     

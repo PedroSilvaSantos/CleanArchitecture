@@ -25,7 +25,7 @@ public final class RemoteAddAccount: AddAccount {
         httpClient.post(to: url, with: addAccountModel.toData()) { [weak self] result in
             
             //MARK: teste criando um error de memory leak
-            var memory = self?.httpClient
+            _ = self?.httpClient
             
             //MARK: resolvendo problema de classe desalocada da memoria
             //caso o self seja != nil, o metodo do completion será acionado
