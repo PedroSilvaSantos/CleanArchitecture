@@ -41,8 +41,7 @@ struct SignupViewModel {
 
 class SignupPresentTests: XCTestCase {
     func test_signup() {
-        let alertViewSpy = AlertViewSpy()
-        let sut = SignupPresenter(alertView: alertViewSpy)
+        let (sut,alertViewSpy) = makeSut()
         let signupViewModel = makeSignupviewModel()
         sut.signup(viewModel: signupViewModel)
         XCTAssertEqual(alertViewSpy.viewModel, AlertViewModel(title: "falha na validacao", message: "o campo nome é obrigatorio"))
@@ -59,6 +58,12 @@ extension SignupPresentTests {
         func showMenssage(viewModel: AlertViewModel) {
             self.viewModel = viewModel
         }
+    }
+    
+        func makeSut() -> (sut: SignupPresenter, alertViewSpy: AlertViewSpy) {
+            let alertViewSpy = AlertViewSpy()
+            let sut = SignupPresenter(alertView: alertViewSpy)
+        return (sut , alertViewSpy)
     }
     
     
