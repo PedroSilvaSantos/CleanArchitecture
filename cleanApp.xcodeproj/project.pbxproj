@@ -36,6 +36,8 @@
 		62663A6126D6604000EB29DC /* SignupPresentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62663A6026D6604000EB29DC /* SignupPresentTests.swift */; };
 		62A1D10526D507B300E65490 /* AlamofireAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A1D10426D507B300E65490 /* AlamofireAdapter.swift */; };
 		62A1D11826D50A1C00E65490 /* URLProtocolStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A1D11726D50A1C00E65490 /* URLProtocolStub.swift */; };
+		62A7A73526DE239800B8B63B /* SignupPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A7A73426DE239800B8B63B /* SignupPresenter.swift */; };
+		62A7A74C26DE24B300B8B63B /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A7A74B26DE24B300B8B63B /* AlertView.swift */; };
 		6307780A4B871754A43E1E87 /* Pods_Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E09FE4F20FB80DE7C765A9F6 /* Pods_Data.framework */; };
 		AEB5D183297F8A46A50CBE0F /* Pods_Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A25036E69B2E8516AE0CE /* Pods_Domain.framework */; };
 		B21B945BBB629A9E5FBB38C8 /* Pods_Infra_UseCasesIntegrationTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611F3A42393382742ACF1760 /* Pods_Infra_UseCasesIntegrationTests.framework */; };
@@ -85,6 +87,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 62663A5226D6604000EB29DC;
 			remoteInfo = Presentation;
+		};
+		62A7A73C26DE23FE00B8B63B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6246BE2926BAC0D8003393BF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6246BE5026BACD6E003393BF;
+			remoteInfo = Domain;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -155,6 +164,8 @@
 		6269E0F140DD0E60BE23C817 /* Pods_Infra.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Infra.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62A1D10426D507B300E65490 /* AlamofireAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireAdapter.swift; sourceTree = "<group>"; };
 		62A1D11726D50A1C00E65490 /* URLProtocolStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolStub.swift; sourceTree = "<group>"; };
+		62A7A73426DE239800B8B63B /* SignupPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupPresenter.swift; sourceTree = "<group>"; };
+		62A7A74B26DE24B300B8B63B /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		74DA65716B37DF2AA60F86EC /* Pods-Infra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Infra.release.xcconfig"; path = "Target Support Files/Pods-Infra/Pods-Infra.release.xcconfig"; sourceTree = "<group>"; };
 		9E0663A1B5BB7AD1DE44F1F9 /* Pods-Infra-InfraTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Infra-InfraTests.release.xcconfig"; path = "Target Support Files/Pods-Infra-InfraTests/Pods-Infra-InfraTests.release.xcconfig"; sourceTree = "<group>"; };
 		9F0B0C8E7581E965E2C62544 /* Pods-Domain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Domain.debug.xcconfig"; path = "Target Support Files/Pods-Domain/Pods-Domain.debug.xcconfig"; sourceTree = "<group>"; };
@@ -424,6 +435,8 @@
 		62663A5426D6604000EB29DC /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				62A7A75926DE254900B8B63B /* Presenters */,
+				62A7A74A26DE249C00B8B63B /* Views */,
 				62663A5626D6604000EB29DC /* Info.plist */,
 			);
 			path = Presentation;
@@ -432,7 +445,7 @@
 		62663A5F26D6604000EB29DC /* PresentationTests */ = {
 			isa = PBXGroup;
 			children = (
-				62663A6026D6604000EB29DC /* SignupPresentTests.swift */,
+				62A7A76626DE27C000B8B63B /* Presenters */,
 				62663A6226D6604000EB29DC /* Info.plist */,
 			);
 			path = PresentationTests;
@@ -453,6 +466,30 @@
 				62A1D10426D507B300E65490 /* AlamofireAdapter.swift */,
 			);
 			path = http;
+			sourceTree = "<group>";
+		};
+		62A7A74A26DE249C00B8B63B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				62A7A74B26DE24B300B8B63B /* AlertView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		62A7A75926DE254900B8B63B /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+				62A7A73426DE239800B8B63B /* SignupPresenter.swift */,
+			);
+			path = Presenters;
+			sourceTree = "<group>";
+		};
+		62A7A76626DE27C000B8B63B /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+				62663A6026D6604000EB29DC /* SignupPresentTests.swift */,
+			);
+			path = Presenters;
 			sourceTree = "<group>";
 		};
 		7DD500403DC76B8C1E569D34 /* Pods */ = {
@@ -640,6 +677,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				62A7A73D26DE23FE00B8B63B /* PBXTargetDependency */,
 			);
 			name = Presentation;
 			productName = Presentation;
@@ -696,6 +734,7 @@
 					};
 					62663A5226D6604000EB29DC = {
 						CreatedOnToolsVersion = 12.0.1;
+						LastSwiftMigration = 1200;
 					};
 					62663A5A26D6604000EB29DC = {
 						CreatedOnToolsVersion = 12.0.1;
@@ -1023,6 +1062,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62A7A73526DE239800B8B63B /* SignupPresenter.swift in Sources */,
+				62A7A74C26DE24B300B8B63B /* AlertView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1066,6 +1107,11 @@
 			isa = PBXTargetDependency;
 			target = 62663A5226D6604000EB29DC /* Presentation */;
 			targetProxy = 62663A5D26D6604000EB29DC /* PBXContainerItemProxy */;
+		};
+		62A7A73D26DE23FE00B8B63B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6246BE5026BACD6E003393BF /* Domain */;
+			targetProxy = 62A7A73C26DE23FE00B8B63B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1486,6 +1532,7 @@
 		62663A6426D6604000EB29DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -1503,6 +1550,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -1510,6 +1558,7 @@
 		62663A6526D6604000EB29DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -1534,6 +1583,7 @@
 		62663A6626D6604000EB29DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = PresentationTests/Info.plist;
@@ -1552,6 +1602,7 @@
 		62663A6726D6604000EB29DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = PresentationTests/Info.plist;
