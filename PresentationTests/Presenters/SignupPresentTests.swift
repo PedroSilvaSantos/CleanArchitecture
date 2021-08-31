@@ -14,21 +14,28 @@ class SignupPresentTests: XCTestCase {
         let (sut,alertViewSpy) = makeSut()
         let signupViewModel = SignupViewModel(email: "any_email", password: "any_senha", passwordConfirmation: "any_senha")
         sut.signup(viewModel: signupViewModel)
-        XCTAssertEqual(alertViewSpy.viewModel, AlertViewModel(title: "falha na validacao", message: "o campo nome é obrigatorio"))
+        XCTAssertEqual(alertViewSpy.viewModel, AlertViewModel(title: "Falha na validação", message: "o campo NOME é obrigatorio"))
     }
     
     func test_signup_should_show_error_message_if_email_is_not_provided() {
         let (sut,alertViewSpy) = makeSut()
         let signupViewModel = SignupViewModel(name: "any_name", password: "any_senha", passwordConfirmation: "any_senha")
         sut.signup(viewModel: signupViewModel)
-        XCTAssertEqual(alertViewSpy.viewModel, AlertViewModel(title: "falha na validacao", message: "o campo e-mail é obrigatorio"))
+        XCTAssertEqual(alertViewSpy.viewModel, AlertViewModel(title: "Falha na validação", message: "o campo E-MAIL é obrigatorio"))
     }
     
     func test_signup_should_show_error_message_if_senha_is_not_provided() {
         let (sut,alertViewSpy) = makeSut()
         let signupViewModel = SignupViewModel(name: "any_name", email: "any_email", passwordConfirmation: "any_senha")
         sut.signup(viewModel: signupViewModel)
-        XCTAssertEqual(alertViewSpy.viewModel, AlertViewModel(title: "falha na validacao", message: "o campo senha é obrigatorio"))
+        XCTAssertEqual(alertViewSpy.viewModel, AlertViewModel(title: "Falha na validação", message: "o campo SENHA é obrigatorio"))
+    }
+    
+    func test_signup_should_show_error_message_if_valid_senha_is_not_provided() {
+        let (sut,alertViewSpy) = makeSut()
+        let signupViewModel = SignupViewModel(name: "any_name", email: "any_email", passwordConfirmation: "any_senha")
+        sut.signup(viewModel: signupViewModel)
+        XCTAssertEqual(alertViewSpy.viewModel, AlertViewModel(title: "Falha na validação", message: "o campo SENHA é obrigatorio"))
     }
 }
     
@@ -48,10 +55,5 @@ extension SignupPresentTests {
             let alertViewSpy = AlertViewSpy()
             let sut = SignupPresenter(alertView: alertViewSpy)
         return (sut , alertViewSpy)
-    }
-    
-    
-    func makeSignupviewModel() -> SignupViewModel {
-        return SignupViewModel(name: "any_name", email: "any_email", password: "any_senha", passwordConfirmation: "any_senha")
     }
 }
