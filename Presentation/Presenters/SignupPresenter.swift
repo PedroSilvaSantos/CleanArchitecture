@@ -9,16 +9,21 @@ import Foundation
 
 public final class SignupPresenter {
     private var alertView: AlertViewProtocol
+    private var emailValidatorSpy: EmailValidator
     
-    public init(alertView: AlertViewProtocol) {
+    public init(alertView: AlertViewProtocol, emailValidatorSpy: EmailValidator) {
         self.alertView = alertView
+        self.emailValidatorSpy = emailValidatorSpy
     }
     
     public func signup(viewModel: SignupViewModel) {
         if let message = validate(viewModel: viewModel) {
             alertView.showMenssage(viewModel: AlertViewModel(title: "Falha na validação", message: message))
         }
+        _ = emailValidatorSpy.isValid(email: viewModel.email ?? "Não preencheu o e-mail!!!")
     }
+    
+
     
     private func validate(viewModel: SignupViewModel) -> String? {
         if (viewModel.name == nil || viewModel.name!.isEmpty) {
@@ -29,7 +34,9 @@ public final class SignupPresenter {
             return "o campo SENHA é obrigatorio"
         } else if viewModel.passwordConfirmation == nil || viewModel.passwordConfirmation!.isEmpty {
             return "o campo SENHA é obrigatorio"
-    }
+        } else if viewModel.password != viewModel.passwordConfirmation {
+            return "Falha na validação da senha"
+        }
         return nil
     }
 }

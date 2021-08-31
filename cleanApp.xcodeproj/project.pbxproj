@@ -38,6 +38,7 @@
 		62A1D11826D50A1C00E65490 /* URLProtocolStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A1D11726D50A1C00E65490 /* URLProtocolStub.swift */; };
 		62A7A73526DE239800B8B63B /* SignupPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A7A73426DE239800B8B63B /* SignupPresenter.swift */; };
 		62A7A74C26DE24B300B8B63B /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A7A74B26DE24B300B8B63B /* AlertView.swift */; };
+		62A7A77526DE303B00B8B63B /* EmailValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A7A77426DE303B00B8B63B /* EmailValidator.swift */; };
 		6307780A4B871754A43E1E87 /* Pods_Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E09FE4F20FB80DE7C765A9F6 /* Pods_Data.framework */; };
 		AEB5D183297F8A46A50CBE0F /* Pods_Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A25036E69B2E8516AE0CE /* Pods_Domain.framework */; };
 		B21B945BBB629A9E5FBB38C8 /* Pods_Infra_UseCasesIntegrationTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611F3A42393382742ACF1760 /* Pods_Infra_UseCasesIntegrationTests.framework */; };
@@ -166,6 +167,7 @@
 		62A1D11726D50A1C00E65490 /* URLProtocolStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolStub.swift; sourceTree = "<group>"; };
 		62A7A73426DE239800B8B63B /* SignupPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupPresenter.swift; sourceTree = "<group>"; };
 		62A7A74B26DE24B300B8B63B /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		62A7A77426DE303B00B8B63B /* EmailValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailValidator.swift; sourceTree = "<group>"; };
 		74DA65716B37DF2AA60F86EC /* Pods-Infra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Infra.release.xcconfig"; path = "Target Support Files/Pods-Infra/Pods-Infra.release.xcconfig"; sourceTree = "<group>"; };
 		9E0663A1B5BB7AD1DE44F1F9 /* Pods-Infra-InfraTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Infra-InfraTests.release.xcconfig"; path = "Target Support Files/Pods-Infra-InfraTests/Pods-Infra-InfraTests.release.xcconfig"; sourceTree = "<group>"; };
 		9F0B0C8E7581E965E2C62544 /* Pods-Domain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Domain.debug.xcconfig"; path = "Target Support Files/Pods-Domain/Pods-Domain.debug.xcconfig"; sourceTree = "<group>"; };
@@ -435,6 +437,7 @@
 		62663A5426D6604000EB29DC /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				62A7A77326DE302B00B8B63B /* Validators */,
 				62A7A75926DE254900B8B63B /* Presenters */,
 				62A7A74A26DE249C00B8B63B /* Views */,
 				62663A5626D6604000EB29DC /* Info.plist */,
@@ -490,6 +493,14 @@
 				62663A6026D6604000EB29DC /* SignupPresentTests.swift */,
 			);
 			path = Presenters;
+			sourceTree = "<group>";
+		};
+		62A7A77326DE302B00B8B63B /* Validators */ = {
+			isa = PBXGroup;
+			children = (
+				62A7A77426DE303B00B8B63B /* EmailValidator.swift */,
+			);
+			path = Validators;
 			sourceTree = "<group>";
 		};
 		7DD500403DC76B8C1E569D34 /* Pods */ = {
@@ -1064,6 +1075,7 @@
 			files = (
 				62A7A73526DE239800B8B63B /* SignupPresenter.swift in Sources */,
 				62A7A74C26DE24B300B8B63B /* AlertView.swift in Sources */,
+				62A7A77526DE303B00B8B63B /* EmailValidator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
