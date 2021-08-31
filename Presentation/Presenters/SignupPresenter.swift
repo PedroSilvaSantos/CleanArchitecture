@@ -32,7 +32,7 @@ public final class SignupPresenter {
         } else if viewModel.passwordConfirmation == nil || viewModel.passwordConfirmation!.isEmpty {
             return "o campo SENHA é obrigatorio"
         } else if viewModel.password != viewModel.passwordConfirmation {
-            return "Falha na validação da senha"
+            return "Falha ao confirmar a senha"
         } else if !emailValidatorSpy.isValid(email: viewModel.email!) { //senao for valido
             return "Email invalido"
         }
