@@ -34,7 +34,7 @@ public final class SignupPresenter {
         } else if viewModel.password != viewModel.passwordConfirmation {
             return "Falha ao confirmar a senha"
         } else if !emailValidatorSpy.isValid(email: viewModel.email!) { //senao for valido
-            return "Email invalido"
+            return "o campo Email invalido é obrigatorio"
         }
         return nil
     }
