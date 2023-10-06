@@ -61,37 +61,10 @@ final class RemoteAddAccountTests: XCTestCase {
     }
 }
 
-    
 extension RemoteAddAccountTests {
-    //colocar todos os helps aqui para organizar
-    class HttpClientSpy: HttpPostClient {
-
-        var urls = [URL]() //dessa forma podemos validar a igualdade e a quantidade ao mesmo tempo
-        var data: Data?
-        var completion: ((Result<Data,HttpError>) -> Void)?
-        
-        func post(to url: URL, with data: Data?, completion: @escaping (Result<Data,HttpError>) -> Void) {
-            self.urls.append(url)
-            self.data = data
-            self.completion = completion
-        }
-        
-        func completeWithError(_ error: HttpError) {
-            completion?(.failure(error))
-        }
-        
-        func completWithData(data: Data) {
-            completion?(.success(data))
-        }
-    }
-    
     //Design Patterns - Factory
     func makeAddAccountModel() -> AddAccountModel {
         return AddAccountModel(name: "any_name", email: "any_email@gmail.com", password: "123456", passwordConfirmation: "123456")
-    }
-    
-    func makeAccountModel() -> AccountModel {
-        return AccountModel(id: "01", name: "any_name", email: "any_email@gmail.com", password: "123456")
     }
     
     //Return Tupla com SUT e HttpClient
@@ -101,22 +74,6 @@ extension RemoteAddAccountTests {
         checkMemoryLeak(for: sut, file: file, line: line)
         checkMemoryLeak(for: httpClientSpy, file: file, line: line)
         return (sut, httpClientSpy)
-    }
-    
-    func checkMemoryLeak(for instance: AnyObject, file: StaticString = #filePath, line: UInt = #line) {
-        //addTeardownBlock é executado sempre ao final do testes, ele valida se o sut foi desalocado da memoria
-        //capturado como referencia fraca
-        addTeardownBlock { [weak instance] in
-            XCTAssertNil(instance, file: file, line: line)
-        }
-    }
-    
-    func makeInvalidData() -> Data {
-        return Data("invalid_data".utf8)
-    }
-    
-    func makeUrl() -> URL {
-        return URL(string: "http://any-url.com")!
     }
     
     //Completa com a resposta, quando uma ação acontencer
