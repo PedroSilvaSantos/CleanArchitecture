@@ -3,28 +3,35 @@ import XCTest
 class RemoteAddAccount {
     //Quando o valor é de responsabilidade da classe, injetamos o valor nela
     private let url: URL
-    private let httpClient: HttpClient
+    private let httpPostClient: HttpPostClient
     
-    init(url: URL, httpClient: HttpClient) {
+    init(url: URL, httpPostClient: HttpPostClient) {
         self.url = url
-        self.httpClient = httpClient
+        self.httpPostClient = httpPostClient
     }
     
     func add() {
-        httpClient.post(url: self.url)
+        httpPostClient.post(url: self.url)
     }
 }
 
-protocol HttpClient {
+//Principios do SOLID
+//S - Interface segregation
+protocol HttpGetClient {
+    func get(url: URL)
+}
+
+protocol HttpPostClient {
     func post(url: URL)
 }
+
 
 final class RemoteAddAccountTests: XCTestCase {
     func test_() {
         let url = URL(string: "http://any-url.com")
         let httpClientSpy = HttpClientSpy()
         //A instancia da classe chamamos de SUT
-        let sut = RemoteAddAccount(url: url!, httpClient: httpClientSpy)
+        let sut = RemoteAddAccount(url: url!, httpPostClient: httpClientSpy)
         sut.add()
         XCTAssertEqual(httpClientSpy.url, url)
     }
@@ -32,7 +39,7 @@ final class RemoteAddAccountTests: XCTestCase {
     //Test Double - Double do valor
     //Spy - versao mocada - fake de producao - cria variavel de referencia
     //Stub -
-    class HttpClientSpy: HttpClient {
+    class HttpClientSpy: HttpPostClient {
         var url: URL?
         
         func post(url: URL) {
