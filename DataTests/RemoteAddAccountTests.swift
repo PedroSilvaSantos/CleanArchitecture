@@ -1,4 +1,5 @@
 import XCTest
+import Domain
 
 class RemoteAddAccount {
     //Quando o valor é de responsabilidade da classe, injetamos o valor nela
@@ -10,8 +11,9 @@ class RemoteAddAccount {
         self.httpPostClient = httpPostClient
     }
     
-    func add() {
-        httpPostClient.post(url: self.url)
+    func add(addAccountModel: AddAccountModel) {
+        let dataModel = try? JSONEncoder().encode(addAccountModel)
+        httpPostClient.post(to: url, with: dataModel)
     }
 }
 
@@ -22,7 +24,7 @@ protocol HttpGetClient {
 }
 
 protocol HttpPostClient {
-    func post(url: URL)
+    func post(to url: URL, with data: Data?)
 }
 
 
@@ -32,10 +34,21 @@ final class RemoteAddAccountTests: XCTestCase {
     func test_add_should_call_httpclient_with_correct_ulr() {
         let url = URL(string: "http://any-url.com")
         let httpClientSpy = HttpClientSpy()
-        //A instancia da classe chamamos de SUT
+        let addAccountModel = AddAccountModel(name: "any_name", email: "any_email@gmail.com", password: "123456", passwordConfirmation: "123456")
         let sut = RemoteAddAccount(url: url!, httpPostClient: httpClientSpy)
-        sut.add()
+        sut.add(addAccountModel: addAccountModel)
         XCTAssertEqual(httpClientSpy.url, url)
+    }
+    
+    func test_add_should_call_httpclient_with_correct_data() {
+        let httpClientSpy = HttpClientSpy()
+        let addAccountModel = AddAccountModel(name: "any_name", email: "any_email@gmail.com", password: "123456", passwordConfirmation: "123456")
+        let sut = RemoteAddAccount(url: URL(string: "http://any-url.com")!, httpPostClient: httpClientSpy)
+        sut.add(addAccountModel: addAccountModel)
+        
+        //converter o model para data, utilizando o Encoder
+        let data = try? JSONEncoder().encode(addAccountModel)
+        XCTAssertEqual(httpClientSpy.data, data)
     }
 }
 
@@ -43,10 +56,13 @@ final class RemoteAddAccountTests: XCTestCase {
 extension RemoteAddAccountTests {
     //colocar todos os helps aqui para organizar
     class HttpClientSpy: HttpPostClient {
-        var url: URL?
         
-        func post(url: URL) {
+        var url: URL?
+        var data: Data?
+        
+        func post(to url: URL, with data: Data?) {
             self.url = url
+            self.data = data
         }
     }
 }
