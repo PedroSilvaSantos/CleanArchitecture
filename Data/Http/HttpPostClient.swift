@@ -7,5 +7,5 @@ public protocol HttpGetClient {
 }
 
 public protocol HttpPostClient {
-    func post(to url: URL, with data: Data?)
+    func post(to url: URL, with data: Data?, completion: @escaping (Result<Data,HttpError>) -> Void)
 }
