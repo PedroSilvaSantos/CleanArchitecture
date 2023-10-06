@@ -16,3 +16,16 @@ public struct AccountModel: Encodable {
         self.password = password
     }
 }
+
+
+extension AddAccountModel {
+    public func modelToData() -> Data? {
+        return try? JSONEncoder().encode(self)
+        //O self é a propria instacia dessa classe
+    }
+    
+//    public func dataToModel(jsonData: Data?) -> Data? {
+//        return try? JSONDecoder().decode([], from: jsonData)
+//        //O self é a propria instacia dessa classe
+//    }
+}
