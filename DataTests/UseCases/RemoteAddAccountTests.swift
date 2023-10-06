@@ -6,7 +6,7 @@ final class RemoteAddAccountTests: XCTestCase {
     
     //padrão do nome: test + nome do metodo que esta sendo testado + o que esta sendo validado
     func test_add_should_call_httpclient_with_correct_ulr() {
-        let url = URL(string: "http://any-url.com")!
+        let url = makeUrl()
         let (sut, httpClientSpy) = makeSUT(url: url)
         sut.add(addAccountModel: makeAddAccountModel()) { _ in}
         XCTAssertEqual(httpClientSpy.urls, [url])
@@ -43,7 +43,7 @@ final class RemoteAddAccountTests: XCTestCase {
         //testes assincrono precisa usar o expectation
         
         expect(sut, completWith: .failure(.unexpected)) {
-            httpClientSpy.completWithData(data: Data("invalid_data".utf8))
+            httpClientSpy.completWithData(data: makeInvalidData())
         }
     }
 }
@@ -86,6 +86,14 @@ extension RemoteAddAccountTests {
         let httpClientSpy = HttpClientSpy()
         let sut = RemoteAddAccount(url: url, httpPostClient: httpClientSpy)
         return (sut, httpClientSpy)
+    }
+    
+    func makeInvalidData() -> Data {
+        return Data("invalid_data".utf8)
+    }
+    
+    func makeUrl() -> URL {
+        return URL(string: "http://any-url.com")!
     }
     
     //Completa com a resposta, quando uma ação acontencer
