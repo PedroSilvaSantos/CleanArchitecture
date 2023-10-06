@@ -1,31 +1,6 @@
 import XCTest
 import Domain
-
-class RemoteAddAccount {
-    //Quando o valor é de responsabilidade da classe, injetamos o valor nela
-    private let url: URL
-    private let httpPostClient: HttpPostClient
-    
-    init(url: URL, httpPostClient: HttpPostClient) {
-        self.url = url
-        self.httpPostClient = httpPostClient
-    }
-    
-    func add(addAccountModel: AddAccountModel) {
-        httpPostClient.post(to: url, with: addAccountModel.modelToData())
-    }
-}
-
-//Principios do SOLID
-//S - Interface segregation
-protocol HttpGetClient {
-    func get(url: URL)
-}
-
-protocol HttpPostClient {
-    func post(to url: URL, with data: Data?)
-}
-
+import Data
 
 final class RemoteAddAccountTests: XCTestCase {
     
