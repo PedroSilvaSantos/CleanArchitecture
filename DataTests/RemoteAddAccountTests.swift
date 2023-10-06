@@ -32,17 +32,15 @@ final class RemoteAddAccountTests: XCTestCase {
     
     //padrão do nome: test + nome do metodo que esta sendo testado + o que esta sendo validado
     func test_add_should_call_httpclient_with_correct_ulr() {
-        let url = URL(string: "http://any-url.com")
-        let httpClientSpy = HttpClientSpy()
-        let sut = RemoteAddAccount(url: url!, httpPostClient: httpClientSpy)
+        let url = URL(string: "http://any-url.com")!
+        let (sut, httpClientSpy) = makeSUT(url: url)
         sut.add(addAccountModel: makeAddAccountModel())
         XCTAssertEqual(httpClientSpy.url, url)
     }
     
     func test_add_should_call_httpclient_with_correct_data() {
-        let httpClientSpy = HttpClientSpy()
         let addAccountModel = makeAddAccountModel()
-        let sut = RemoteAddAccount(url: URL(string: "http://any-url.com")!, httpPostClient: httpClientSpy)
+        let (sut, httpClientSpy) = makeSUT()
         sut.add(addAccountModel: addAccountModel)
         
         //converter o Model para Data utilizando o Encoder - o Decoder serve para converter o Data para Model
@@ -68,5 +66,12 @@ extension RemoteAddAccountTests {
     //Design Patterns - Factory
     func makeAddAccountModel() -> AddAccountModel {
         return AddAccountModel(name: "any_name", email: "any_email@gmail.com", password: "123456", passwordConfirmation: "123456")
+    }
+    
+    //Return Tupla com SUT e HttpClient
+    func makeSUT(url: URL = URL(string: "http://any-url.com")!) -> (sut: RemoteAddAccount, httpClientSpy: HttpClientSpy) {
+        let httpClientSpy = HttpClientSpy()
+        let sut = RemoteAddAccount(url: url, httpPostClient: httpClientSpy)
+        return (sut, httpClientSpy)
     }
 }
