@@ -37,10 +37,11 @@ final class RemoteAddAccountTests: XCTestCase {
         sut.add()
         XCTAssertEqual(httpClientSpy.url, url)
     }
+}
+
     
-    //Test Double - Double do valor
-    //Spy - versao mocada - fake de producao - cria variavel de referencia
-    //Stub -
+extension RemoteAddAccountTests {
+    //colocar todos os helps aqui para organizar
     class HttpClientSpy: HttpPostClient {
         var url: URL?
         
@@ -49,5 +50,3 @@ final class RemoteAddAccountTests: XCTestCase {
         }
     }
 }
-
-    
