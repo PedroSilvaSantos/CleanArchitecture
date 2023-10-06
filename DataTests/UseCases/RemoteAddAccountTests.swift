@@ -82,10 +82,20 @@ extension RemoteAddAccountTests {
     }
     
     //Return Tupla com SUT e HttpClient
-    func makeSUT(url: URL = URL(string: "http://any-url.com")!) -> (sut: RemoteAddAccount, httpClientSpy: HttpClientSpy) {
+    func makeSUT(url: URL = URL(string: "http://any-url.com")!, file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteAddAccount, httpClientSpy: HttpClientSpy) {
         let httpClientSpy = HttpClientSpy()
         let sut = RemoteAddAccount(url: url, httpPostClient: httpClientSpy)
+        checkMemoryLeak(for: sut, file: file, line: line)
+        checkMemoryLeak(for: httpClientSpy, file: file, line: line)
         return (sut, httpClientSpy)
+    }
+    
+    func checkMemoryLeak(for instance: AnyObject, file: StaticString = #filePath, line: UInt = #line) {
+        //addTeardownBlock é executado sempre ao final do testes, ele valida se o sut foi desalocado da memoria
+        //capturado como referencia fraca
+        addTeardownBlock { [weak instance] in
+            XCTAssertNil(instance, file: file, line: line)
+        }
     }
     
     func makeInvalidData() -> Data {
