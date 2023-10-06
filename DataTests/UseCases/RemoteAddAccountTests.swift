@@ -23,14 +23,14 @@ final class RemoteAddAccountTests: XCTestCase {
         XCTAssertEqual(httpClientSpy.data, data)
     }
     
-    func test_add_should_complet_with_error_if_client_completes_with_errors() {
+    func test_add_should_complete_with_error_if_client_completes_with_errors() {
         let (sut, httpClientSpy) = makeSUT()
         expect(sut, completWith: .failure(.unexpected)) {
             httpClientSpy.completeWithError(.noConnectivity)
         }
     }
     
-    func test_add_should_complet_with_account_if_client_completes_with_valid_data() {
+    func test_add_should_complete_with_account_if_client_completes_with_valid_data() {
         let (sut, httpClientSpy) = makeSUT()
         let account = makeAccountModel()
         expect(sut, completWith: .success(makeAccountModel())) {
@@ -38,13 +38,26 @@ final class RemoteAddAccountTests: XCTestCase {
         }
     }
     
-    func test_add_should_complet_with_error_if_client_completes_with_invalid_data() {
+    func test_add_should_complete_with_error_if_client_completes_with_invalid_data() {
         let (sut, httpClientSpy) = makeSUT()
         //testes assincrono precisa usar o expectation
         
         expect(sut, completWith: .failure(.unexpected)) {
             httpClientSpy.completWithData(data: makeInvalidData())
         }
+    }
+    
+    func test_add_should_complete_if_sut_has_been_deallocted() {
+        let httpClientSpy = HttpClientSpy()
+        let url = makeUrl()
+        var sut: RemoteAddAccount? = RemoteAddAccount(url: url, httpPostClient: httpClientSpy)
+        var result: Result<AccountModel, DomainError>?
+        //A idéia é que nao deveria executar o callcback, pois estou setando o sut para nil
+        //$0 atalho para o valor do primeiro resultado
+        sut?.add(addAccountModel: makeAddAccountModel()) { result = $0 }
+        sut = nil
+        httpClientSpy.completeWithError(.noConnectivity)
+        XCTAssertNil(result)
     }
 }
 

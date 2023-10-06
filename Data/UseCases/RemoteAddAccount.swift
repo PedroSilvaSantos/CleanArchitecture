@@ -16,9 +16,8 @@ final public class RemoteAddAccount: AddAccount {
     
     public func add(addAccountModel: AddAccountModel, completion: @escaping (Result<AccountModel,DomainError>) -> Void) {
         httpPostClient.post(to: url, with: addAccountModel.modelToData()) { [weak self] result in
-            //O post retornando error, o callback do metodo add será disparado
-            //O self agora é nullable
-            var memory = self?.httpPostClient
+            //validando se a minha classe foi desalocada da memoria, se sim, deverá sair sem executar o callback
+            guard self != nil else { return }
             switch result {
                 case .success(let data):
                     if let model: AccountModel = data.dataToModel() { //transformando um Data em um Model
