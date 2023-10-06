@@ -4,13 +4,12 @@ import Foundation
 //Nao retorna nada - Void
 public protocol AddAccount {
     func add(addAccountModel: AddAccountModel, completion: @escaping (Result<AccountModel, Error>) -> Void)
-
 }
 
 
 //Operacao assincrona - temos que aguardar um servico responder
 //A api espera receber esses dados
-public struct AddAccountModel: Encodable {
+public struct AddAccountModel: Model {
     public var name: String
     public var email: String
     public var password: String
