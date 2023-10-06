@@ -27,7 +27,9 @@ protocol HttpPostClient {
 
 
 final class RemoteAddAccountTests: XCTestCase {
-    func test_() {
+    
+    //padrão do nome: test + nome do metodo que esta sendo testado + o que esta sendo validado
+    func test_add_should_call_httpclient_with_correct_ulr() {
         let url = URL(string: "http://any-url.com")
         let httpClientSpy = HttpClientSpy()
         //A instancia da classe chamamos de SUT
