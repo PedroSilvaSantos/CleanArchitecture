@@ -18,10 +18,13 @@ final public class RemoteAddAccount: AddAccount {
         httpPostClient.post(to: url, with: addAccountModel.modelToData()) { result in
             //O post retornando error, o callback do metodo add será disparado
             switch result {
-            case .failure(_): break
-            case .success(_): break
+            case .success(let data):
+                if let model: AccountModel = data.toModel() {
+                    completion(.success(model))
+                }
+               
+            case .failure(_): completion(.failure(.unexpected))
             }
-            completion(.failure(.unexpected))
         }
     }
 }
