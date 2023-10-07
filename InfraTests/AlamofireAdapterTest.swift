@@ -40,17 +40,7 @@ final class AlamofireAdapterTest: XCTestCase {
     }
     
     func test_post_should_complete_with_error_when_request_completes_with_error() {
-        let sut = makeSut()
-        URLProtocolStub.simulateRequest(data: nil, response: nil, error: makeError())
-        let exp = expectation(description: "waiting")
-        sut.post(to: makeUrl(), with: makeValidData()) { result in
-            switch result {
-            case .success: XCTFail("Expected error got \(result) instead")
-            case .failure(let error): XCTAssertEqual(error, .noConnectivity)
-            }
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1)
+        expect(.failure(.noConnectivity), when: (data: nil, response: nil, error: makeError()))
     }
 }
 
@@ -132,6 +122,22 @@ extension AlamofireAdapterTest {
         URLProtocolStub.observerRequest { request = $0 }
         wait(for: [exp], timeout: 1)
         action(request!)
+    }
+    
+    func expect(_ expectResult: Result<Data, HttpError>, when stub: (data: Data?, response: HTTPURLResponse?, error: Error?), file: StaticString = #file, line: UInt = #line){
+        let sut = makeSut()
+        URLProtocolStub.simulateRequest(data: stub.data, response: stub.response, error: stub.error)
+        let exp = expectation(description: "waiting")
+        sut.post(to: makeUrl(), with: makeValidData()) { receivedResult in
+            switch (expectResult, receivedResult) {
+            case (.failure(let expectError), .failure(let receivedError)): XCTAssertEqual(expectError, receivedError, file: file, line: line)
+            case (.success(let expectData),.success(let receivedData)): XCTAssertEqual(expectData, receivedData, file: file, line: line)
+            default: XCTFail("Expected \(expectResult) got \(receivedResult) instead", file: file, line: line)
+            
+            }
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1)
     }
 }
 
