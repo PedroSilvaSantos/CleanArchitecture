@@ -14,6 +14,7 @@
 		BA4206C02AD1876F00772934 /* Infra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA4206B82AD1876F00772934 /* Infra.framework */; };
 		BA4206C52AD1876F00772934 /* AlamofireAdapterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4206C42AD1876F00772934 /* AlamofireAdapterTest.swift */; };
 		BA4206E22AD19A7100772934 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA4206E12AD19A7100772934 /* Alamofire */; };
+		BA4206E32AD19D5D00772934 /* TestsFactorys.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4206AC2AD0B6E400772934 /* TestsFactorys.swift */; };
 		BACFD8D22ACF6AED0016FA0C /* AddAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACFD8D12ACF6AED0016FA0C /* AddAccount.swift */; };
 		BACFD8D42ACF6CDF0016FA0C /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACFD8D32ACF6CDF0016FA0C /* AccountModel.swift */; };
 		BACFD8E32ACF6DB90016FA0C /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BACFD8DB2ACF6DB90016FA0C /* Data.framework */; };
@@ -510,6 +511,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA4206E32AD19D5D00772934 /* TestsFactorys.swift in Sources */,
 				BA4206C52AD1876F00772934 /* AlamofireAdapterTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
