@@ -27,6 +27,7 @@
 		BACFD9062ACFB6B90016FA0C /* DomainError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACFD9052ACFB6B90016FA0C /* DomainError.swift */; };
 		BACFD9082ACFB93A0016FA0C /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACFD9072ACFB93A0016FA0C /* HttpError.swift */; };
 		BACFD90B2ACFC6A60016FA0C /* ExtensionHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACFD90A2ACFC6A60016FA0C /* ExtensionHelpers.swift */; };
+		BAD46E362AD1E51A00D79782 /* TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4206AA2AD0B67E00772934 /* TestExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -512,6 +513,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA4206E32AD19D5D00772934 /* TestsFactorys.swift in Sources */,
+				BAD46E362AD1E51A00D79782 /* TestExtensions.swift in Sources */,
 				BA4206C52AD1876F00772934 /* AlamofireAdapterTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
