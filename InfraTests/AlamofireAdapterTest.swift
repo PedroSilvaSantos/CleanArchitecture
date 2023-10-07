@@ -125,13 +125,33 @@ extension AlamofireAdapterTest {
     
     func testRequestFor(url:URL, data: Data?, action: @escaping (URLRequest) -> Void) {
         let sut = makeSut()
-        sut.post(to: url, with: data) {_ in}
-        //teste assincrono, devemos usar o expectation
         let exp = expectation(description: "waiting")
-        URLProtocolStub.observerRequest { request in
-            action(request)
-            exp.fulfill()
-        }
+        sut.post(to: url, with: data) {_ in exp.fulfill()}
+        //teste assincrono, devemos usar o expectation
+        var request: URLRequest?
+        URLProtocolStub.observerRequest { request = $0 }
         wait(for: [exp], timeout: 1)
+        action(request!)
     }
 }
+
+
+
+
+/*
+    Caso de testes
+ Valido
+ Data  |  Response  |  Error
+ ok         ok          x
+ x           x          ok
+ 
+ InValido
+ Data  |  Response  |  Error
+ ok         ok          ok
+ ok          x          ok
+ ok          x          x
+ x           ok         ok
+ x           ok         x
+ x           x          x
+ */
+
