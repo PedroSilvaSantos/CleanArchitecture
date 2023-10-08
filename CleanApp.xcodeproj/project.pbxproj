@@ -16,6 +16,7 @@
 		BA4206E22AD19A7100772934 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA4206E12AD19A7100772934 /* Alamofire */; };
 		BA4206E32AD19D5D00772934 /* TestsFactorys.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4206AC2AD0B6E400772934 /* TestsFactorys.swift */; };
 		BAC6BE932AD2E4D7003E3288 /* AlamofireAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC6BE922AD2E4D7003E3288 /* AlamofireAdapter.swift */; };
+		BAC6BE972AD2E9EC003E3288 /* URLProtocolStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC6BE962AD2E9EC003E3288 /* URLProtocolStub.swift */; };
 		BACFD8D22ACF6AED0016FA0C /* AddAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACFD8D12ACF6AED0016FA0C /* AddAccount.swift */; };
 		BACFD8D42ACF6CDF0016FA0C /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACFD8D32ACF6CDF0016FA0C /* AccountModel.swift */; };
 		BACFD8E32ACF6DB90016FA0C /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BACFD8DB2ACF6DB90016FA0C /* Data.framework */; };
@@ -78,6 +79,7 @@
 		BA4206BF2AD1876F00772934 /* InfraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InfraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA4206C42AD1876F00772934 /* AlamofireAdapterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireAdapterTest.swift; sourceTree = "<group>"; };
 		BAC6BE922AD2E4D7003E3288 /* AlamofireAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireAdapter.swift; sourceTree = "<group>"; };
+		BAC6BE962AD2E9EC003E3288 /* URLProtocolStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolStub.swift; sourceTree = "<group>"; };
 		BACFD8CA2ACF52030016FA0C /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BACFD8D12ACF6AED0016FA0C /* AddAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccount.swift; sourceTree = "<group>"; };
 		BACFD8D32ACF6CDF0016FA0C /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				BA4206C42AD1876F00772934 /* AlamofireAdapterTest.swift */,
+				BAC6BE962AD2E9EC003E3288 /* URLProtocolStub.swift */,
 			);
 			path = Http;
 			sourceTree = "<group>";
@@ -536,6 +539,7 @@
 				BA4206E32AD19D5D00772934 /* TestsFactorys.swift in Sources */,
 				BAD46E362AD1E51A00D79782 /* TestExtensions.swift in Sources */,
 				BA4206C52AD1876F00772934 /* AlamofireAdapterTest.swift in Sources */,
+				BAC6BE972AD2E9EC003E3288 /* URLProtocolStub.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
