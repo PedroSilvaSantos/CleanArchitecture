@@ -3,7 +3,7 @@ import Foundation
 //Em caso de sucesso ele develverá um AccountModel e caso de error deveolverar o Error
 //Nao retorna nada - Void
 public protocol AddAccount {
-    func add(addAccountModel: AddAccountModel, completion: @escaping (Result<AccountModel, DomainError>) -> Void)
+    func addAccount(addAccountModel: AddAccountModel, completion: @escaping (Result<AccountModel, DomainError>) -> Void)
 }
 
 

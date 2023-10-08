@@ -8,7 +8,7 @@ final class RemoteAddAccountTests: XCTestCase {
     func test_add_should_call_httpclient_with_correct_ulr() {
         let url = makeUrl()
         let (sut, httpClientSpy) = makeSUT(url: url)
-        sut.add(addAccountModel: makeAddAccountModel()) { _ in}
+        sut.addAccount(addAccountModel: makeAddAccountModel()) { _ in}
         XCTAssertEqual(httpClientSpy.urls, [url])
         //XCTAssertEqual(httpClientSpy.callsCount, 1) //validar se é chamado apenas uma vez
     }
@@ -16,7 +16,7 @@ final class RemoteAddAccountTests: XCTestCase {
     func test_add_should_call_httpclient_with_correct_data() {
         let addAccountModel = makeAddAccountModel()
         let (sut, httpClientSpy) = makeSUT()
-        sut.add(addAccountModel: addAccountModel) { _ in}
+        sut.addAccount(addAccountModel: addAccountModel) { _ in}
         
         //converter a Model para Data utilizando o Encoder - o Decoder serve para converter o Data para Model
         let data = addAccountModel.modelToData()
@@ -54,7 +54,7 @@ final class RemoteAddAccountTests: XCTestCase {
         var result: Result<AccountModel, DomainError>?
         //A idéia é que nao deveria executar o callcback, pois estou setando o sut para nil
         //$0 atalho para o valor do primeiro resultado
-        sut?.add(addAccountModel: makeAddAccountModel()) { result = $0 }
+        sut?.addAccount(addAccountModel: makeAddAccountModel()) { result = $0 }
         sut = nil
         httpClientSpy.completeWithError(.noConnectivity)
         XCTAssertNil(result)
@@ -79,7 +79,7 @@ extension RemoteAddAccountTests {
     //Completa com a resposta, quando uma ação acontencer
     func expect(_ sut: RemoteAddAccount, completWith expectedResult: Result<AccountModel, DomainError>, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "waiting")
-        sut.add(addAccountModel: makeAddAccountModel()) { receivedResult in
+        sut.addAccount(addAccountModel: makeAddAccountModel()) { receivedResult in
             switch (expectedResult, receivedResult) {
             case (.failure(let expectedError), .failure(let expectedError)): XCTAssertEqual(expectedError, expectedError, file: file, line:line)
                 case (.success(let expectedData), .success(let receivedData)): XCTAssertEqual(expectedData, receivedData, file: file, line:line)

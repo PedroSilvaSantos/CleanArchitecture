@@ -14,7 +14,7 @@ final public class RemoteAddAccount: AddAccount {
         self.httpPostClient = httpPostClient
     }
     
-    public func add(addAccountModel: AddAccountModel, completion: @escaping (Result<AccountModel,DomainError>) -> Void) {
+    public func addAccount(addAccountModel: AddAccountModel, completion: @escaping (Result<AccountModel,DomainError>) -> Void) {
         httpPostClient.post(to: url, with: addAccountModel.modelToData()) { [weak self] result in
             //validando se a minha classe foi desalocada da memoria, se sim, deverá sair sem executar o callback
             guard self != nil else { return }
