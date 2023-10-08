@@ -1,9 +1,9 @@
+import Alamofire
 import Foundation
 import Data
-import Alamofire
 
 //final - ninguem vai herdar essa classe
-public final class AlamofireAdapter: HttpPostClient {
+public class AlamofireAdapter: HttpPostClient {
     
     private let session: Session
     
