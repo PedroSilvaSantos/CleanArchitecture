@@ -3,4 +3,102 @@
    uuid = "2F85F3C3-3143-48A6-8E0B-8F44B8FD3900"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3052C7E3-DF36-44B5-AA6D-9F88892E6264"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "InfraTests/Http/AlamofireAdapterTest.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "10"
+            endingLineNumber = "10"
+            landmarkName = "test_post_should_make_request_with_valid_url_and_method()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3052C7E3-DF36-44B5-AA6D-9F88892E6264 - 6913e58ae0fc8ef4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "InfraTests.AlamofireAdapterTest.test_post_should_make_request_with_valid_url_and_method() -&gt; ()"
+                  moduleName = "InfraTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/virtualmachine/Documents/Learning/CleanArchitecture/InfraTests/Http/AlamofireAdapterTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "10"
+                  endingLineNumber = "10"
+                  offsetFromSymbolStart = "164">
+               </Location>
+               <Location
+                  uuid = "3052C7E3-DF36-44B5-AA6D-9F88892E6264 - bc9b85ce7557bf8a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Foundation.URLRequest) -&gt; () in InfraTests.AlamofireAdapterTest.test_post_should_make_request_with_valid_url_and_method() -&gt; ()"
+                  moduleName = "InfraTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/virtualmachine/Documents/Learning/CleanArchitecture/InfraTests/Http/AlamofireAdapterTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11"
+                  endingLineNumber = "11"
+                  offsetFromSymbolStart = "368">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C3530800-3EF9-41F4-86C2-6A43F5EAEBA5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DataTests/UseCases/RemoteAddAccountTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "expect(_:completWith:when:file:line:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C3530800-3EF9-41F4-86C2-6A43F5EAEBA5 - 1359c99e0ea2c122"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "DataTests.RemoteAddAccountTests.expect(_: Data.RemoteAddAccount, completWith: Swift.Result&lt;Domain.AccountModel, Domain.DomainError&gt;, when: () -&gt; (), file: Swift.StaticString, line: Swift.UInt) -&gt; ()"
+                  moduleName = "DataTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/virtualmachine/Documents/Learning/CleanArchitecture/DataTests/UseCases/RemoteAddAccountTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "82"
+                  endingLineNumber = "82"
+                  offsetFromSymbolStart = "248">
+               </Location>
+               <Location
+                  uuid = "C3530800-3EF9-41F4-86C2-6A43F5EAEBA5 - ee5ac017c10350d2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Domain.AccountModel, Domain.DomainError&gt;) -&gt; () in DataTests.RemoteAddAccountTests.expect(_: Data.RemoteAddAccount, completWith: Swift.Result&lt;Domain.AccountModel, Domain.DomainError&gt;, when: () -&gt; (), file: Swift.StaticString, line: Swift.UInt) -&gt; ()"
+                  moduleName = "DataTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/virtualmachine/Documents/Learning/CleanArchitecture/DataTests/UseCases/RemoteAddAccountTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "83"
+                  endingLineNumber = "83"
+                  offsetFromSymbolStart = "460">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
