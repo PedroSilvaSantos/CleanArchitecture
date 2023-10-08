@@ -2,7 +2,8 @@ import Foundation
 import Data
 import Alamofire
 
-public class AlamofireAdapter: HttpPostClient {
+//final - ninguem vai herdar essa classe
+public final class AlamofireAdapter: HttpPostClient {
     
     private let session: Session
     
@@ -18,8 +19,8 @@ public class AlamofireAdapter: HttpPostClient {
             case .failure: completion(.failure(.noConnectivity))
             case .success(let data):
                 switch statusCode {
-                case 200...299: completion(.success(data))
                 case 204: completion(.success(nil))
+                case 200...299: completion(.success(data))
                 case 401: completion(.failure(.unauthorized))
                 case 403: completion(.failure(.forbidden))
                 case 400...499: completion(.failure(.badRequest))

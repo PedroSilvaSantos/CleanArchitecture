@@ -1,7 +1,7 @@
 import XCTest
 import Alamofire
 import Data
-import AlamofireAdapter
+import Infra
 
 final class AlamofireAdapterTest: XCTestCase {
     

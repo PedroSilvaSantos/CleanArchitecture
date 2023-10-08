@@ -156,7 +156,7 @@
 		BA4206B92AD1876F00772934 /* Infra */ = {
 			isa = PBXGroup;
 			children = (
-				BAC6BE922AD2E4D7003E3288 /* AlamofireAdapter.swift */,
+				BAC6BE942AD2E8DD003E3288 /* Http */,
 			);
 			path = Infra;
 			sourceTree = "<group>";
@@ -164,9 +164,25 @@
 		BA4206C32AD1876F00772934 /* InfraTests */ = {
 			isa = PBXGroup;
 			children = (
-				BA4206C42AD1876F00772934 /* AlamofireAdapterTest.swift */,
+				BAC6BE952AD2E8E8003E3288 /* Http */,
 			);
 			path = InfraTests;
+			sourceTree = "<group>";
+		};
+		BAC6BE942AD2E8DD003E3288 /* Http */ = {
+			isa = PBXGroup;
+			children = (
+				BAC6BE922AD2E4D7003E3288 /* AlamofireAdapter.swift */,
+			);
+			path = Http;
+			sourceTree = "<group>";
+		};
+		BAC6BE952AD2E8E8003E3288 /* Http */ = {
+			isa = PBXGroup;
+			children = (
+				BA4206C42AD1876F00772934 /* AlamofireAdapterTest.swift */,
+			);
+			path = Http;
 			sourceTree = "<group>";
 		};
 		BACFD8B12ACF50C50016FA0C = {
