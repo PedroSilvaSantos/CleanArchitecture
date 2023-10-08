@@ -11,11 +11,15 @@ class AlamofireAdapter {
     }
     
     public func post(to url: URL, with data: Data?, completion: @escaping (Result<Data, HttpError>) -> Void) {
-        let json = data == nil ? nil : try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any]
+        let json = data?.toJson()
         session.request(url, method: .post,parameters: json, encoding: JSONEncoding.default).responseData { dataResponse in
+            guard let statusCode = dataResponse.response?.statusCode else { return completion(.failure(.noConnectivity)) }
             switch dataResponse.result {
-            case .success:break
             case .failure: completion(.failure(.noConnectivity))
+            case .success(let data):
+                if statusCode == 200 {
+                    completion(.success(data))
+                }
             }
         }
     }
@@ -40,7 +44,12 @@ final class AlamofireAdapterTest: XCTestCase {
     }
     
     func test_post_should_complete_with_error_when_request_completes_with_error() {
-        expect(.failure(.noConnectivity), when: (data: nil, response: nil, error: makeError()))
+        expect(.failure(.noConnectivity), when: (data: makeValidData(), response: makeHttpResponse(), error: makeError()))
+        expect(.failure(.noConnectivity), when: (data: makeValidData(), response: nil, error: makeError()))
+        expect(.failure(.noConnectivity), when: (data: makeValidData(), response: nil, error: nil))
+        expect(.failure(.noConnectivity), when: (data: nil, response: makeHttpResponse(), error: makeError()))
+        expect(.failure(.noConnectivity), when: (data: nil, response: makeHttpResponse(), error: makeError()))
+        expect(.failure(.noConnectivity), when: (data: nil, response: nil, error: nil))
     }
 }
 
@@ -131,7 +140,7 @@ extension AlamofireAdapterTest {
         sut.post(to: makeUrl(), with: makeValidData()) { receivedResult in
             switch (expectResult, receivedResult) {
             case (.failure(let expectError), .failure(let receivedError)): XCTAssertEqual(expectError, receivedError, file: file, line: line)
-            case (.success(let expectData),.success(let receivedData)): XCTAssertEqual(expectData, receivedData, file: file, line: line)
+            case (.success(let expectData), .success(let receivedData)): XCTAssertEqual(expectData, receivedData, file: file, line: line)
             default: XCTFail("Expected \(expectResult) got \(receivedResult) instead", file: file, line: line)
             
             }
