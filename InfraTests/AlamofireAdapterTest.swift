@@ -1,33 +1,10 @@
 import XCTest
 import Alamofire
 import Data
-
-class AlamofireAdapter {
-    
-    private let session: Session
-    
-    init(session: Session = .default) {
-        self.session = session
-    }
-    
-    public func post(to url: URL, with data: Data?, completion: @escaping (Result<Data, HttpError>) -> Void) {
-        let json = data?.toJson()
-        session.request(url, method: .post,parameters: json, encoding: JSONEncoding.default).responseData { dataResponse in
-            guard let statusCode = dataResponse.response?.statusCode else { return completion(.failure(.noConnectivity)) }
-            switch dataResponse.result {
-            case .failure: completion(.failure(.noConnectivity))
-            case .success(let data):
-                if statusCode == 200 {
-                    completion(.success(data))
-                }
-            }
-        }
-    }
-}
-
+import AlamofireAdapter
 
 final class AlamofireAdapterTest: XCTestCase {
-
+    
     func test_post_should_make_request_with_valid_url_and_method() {
         let url = makeUrl()
         testRequestFor(url: url, data: makeValidData()) { request in
@@ -50,6 +27,68 @@ final class AlamofireAdapterTest: XCTestCase {
         expect(.failure(.noConnectivity), when: (data: nil, response: makeHttpResponse(), error: makeError()))
         expect(.failure(.noConnectivity), when: (data: nil, response: makeHttpResponse(), error: makeError()))
         expect(.failure(.noConnectivity), when: (data: nil, response: nil, error: nil))
+    }
+    
+    func test_post_should_complete_with_data_when_request_completes_with_200() {
+        expect(.success(makeValidData()), when:(data: makeValidData(), response: makeHttpResponse(), error: nil))
+    }
+    
+    func test_post_should_complete_with_data_when_request_completes_with_204() {
+        expect(.success(nil), when:(data: nil, response: makeHttpResponse(statusCode: 204), error: nil))
+        expect(.success(nil), when:(data: makeEmptyData(), response: makeHttpResponse(statusCode: 204), error: nil))
+        expect(.success(nil), when:(data: makeValidData(), response: makeHttpResponse(statusCode: 204), error: nil))
+    }
+    
+    func test_post_should_complete_with_error_when_request_completes_with_400() {
+        expect(.failure(.badRequest), when:(data: makeValidData(), response: makeHttpResponse(statusCode: 400), error: nil))
+        expect(.failure(.unauthorized), when:(data: makeValidData(), response: makeHttpResponse(statusCode: 401), error: nil))
+        expect(.failure(.forbidden), when:(data: makeValidData(), response: makeHttpResponse(statusCode: 403), error: nil))
+        expect(.failure(.badRequest), when:(data: makeValidData(), response: makeHttpResponse(statusCode: 450), error: nil))
+        expect(.failure(.badRequest), when:(data: makeValidData(), response: makeHttpResponse(statusCode: 499), error: nil))
+    }
+    
+    func test_post_should_complete_with_error_when_request_completes_with_500() {
+        expect(.failure(.serveError), when:(data: makeValidData(), response: makeHttpResponse(statusCode: 500), error: nil))
+        expect(.failure(.serveError), when:(data: makeValidData(), response: makeHttpResponse(statusCode: 550), error: nil))
+        expect(.failure(.serveError), when:(data: makeValidData(), response: makeHttpResponse(statusCode: 599), error: nil))
+    }
+}
+
+extension AlamofireAdapterTest {
+    func makeSut(file: StaticString = #file, line: UInt = #line) -> AlamofireAdapter {
+        let configuration = URLSessionConfiguration.default
+        configuration.protocolClasses = [URLProtocolStub.self]
+        let session = Session(configuration: configuration)
+        let sut = AlamofireAdapter(session: session)
+        checkMemoryLeak(for: sut, file: file, line: line)
+        return sut
+    }
+    
+    func testRequestFor(url:URL, data: Data?, action: @escaping (URLRequest) -> Void) {
+        let sut = makeSut()
+        let exp = expectation(description: "waiting")
+        sut.post(to: url, with: data) {_ in exp.fulfill()}
+        //teste assincrono, devemos usar o expectation
+        var request: URLRequest?
+        URLProtocolStub.observerRequest { request = $0 }
+        wait(for: [exp], timeout: 1)
+        action(request!)
+    }
+    
+    func expect(_ expectResult: Result<Data?, HttpError>, when stub: (data: Data?, response: HTTPURLResponse?, error: Error?), file: StaticString = #file, line: UInt = #line){
+        let sut = makeSut()
+        URLProtocolStub.simulateRequest(data: stub.data, response: stub.response, error: stub.error)
+        let exp = expectation(description: "waiting")
+        sut.post(to: makeUrl(), with: makeValidData()) { receivedResult in
+            switch (expectResult, receivedResult) {
+            case (.failure(let expectError), .failure(let receivedError)): XCTAssertEqual(expectError, receivedError, file: file, line: line)
+            case (.success(let expectData), .success(let receivedData)): XCTAssertEqual(expectData, receivedData, file: file, line: line)
+            default: XCTFail("Expected \(expectResult) got \(receivedResult) instead", file: file, line: line)
+                
+            }
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1)
     }
 }
 
@@ -85,11 +124,11 @@ class URLProtocolStub: URLProtocol {
         //true - vamos interceptar todos os request
         return true
     }
-
+    
     override open class func canonicalRequest(for request: URLRequest) -> URLRequest {
         return request
     }
-
+    
     //metodos de instancia
     override open func startLoading() {
         //toda logica ficará aqui, simiular com error, falha e sucesso
@@ -111,50 +150,8 @@ class URLProtocolStub: URLProtocol {
     }
     override open func stopLoading() {}
 }
-
-extension AlamofireAdapterTest {
-    func makeSut(file: StaticString = #file, line: UInt = #line) -> AlamofireAdapter {
-        let configuration = URLSessionConfiguration.default
-        configuration.protocolClasses = [URLProtocolStub.self]
-        let session = Session(configuration: configuration)
-        let sut = AlamofireAdapter(session: session)
-        checkMemoryLeak(for: sut, file: file, line: line)
-        return sut
-    }
-    
-    func testRequestFor(url:URL, data: Data?, action: @escaping (URLRequest) -> Void) {
-        let sut = makeSut()
-        let exp = expectation(description: "waiting")
-        sut.post(to: url, with: data) {_ in exp.fulfill()}
-        //teste assincrono, devemos usar o expectation
-        var request: URLRequest?
-        URLProtocolStub.observerRequest { request = $0 }
-        wait(for: [exp], timeout: 1)
-        action(request!)
-    }
-    
-    func expect(_ expectResult: Result<Data, HttpError>, when stub: (data: Data?, response: HTTPURLResponse?, error: Error?), file: StaticString = #file, line: UInt = #line){
-        let sut = makeSut()
-        URLProtocolStub.simulateRequest(data: stub.data, response: stub.response, error: stub.error)
-        let exp = expectation(description: "waiting")
-        sut.post(to: makeUrl(), with: makeValidData()) { receivedResult in
-            switch (expectResult, receivedResult) {
-            case (.failure(let expectError), .failure(let receivedError)): XCTAssertEqual(expectError, receivedError, file: file, line: line)
-            case (.success(let expectData), .success(let receivedData)): XCTAssertEqual(expectData, receivedData, file: file, line: line)
-            default: XCTFail("Expected \(expectResult) got \(receivedResult) instead", file: file, line: line)
-            
-            }
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1)
-    }
-}
-
-
-
-
 /*
-    Caso de testes
+ Caso de testes
  Valido
  Data  |  Response  |  Error
  ok         ok          x

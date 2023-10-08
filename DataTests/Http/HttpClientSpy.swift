@@ -7,9 +7,9 @@ class HttpClientSpy: HttpPostClient {
 
     var urls = [URL]() //dessa forma podemos validar a igualdade e a quantidade ao mesmo tempo
     var data: Data?
-    var completion: ((Result<Data,HttpError>) -> Void)?
+    var completion: ((Result<Data?,HttpError>) -> Void)?
     
-    func post(to url: URL, with data: Data?, completion: @escaping (Result<Data,HttpError>) -> Void) {
+    func post(to url: URL, with data: Data?, completion: @escaping (Result<Data?,HttpError>) -> Void) {
         self.urls.append(url)
         self.data = data
         self.completion = completion
