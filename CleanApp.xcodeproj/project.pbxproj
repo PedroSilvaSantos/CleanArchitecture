@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		BA162D632ADAAFE80012C414 /* Presentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA162D5B2ADAAFE70012C414 /* Presentation.framework */; };
 		BA162D682ADAAFE80012C414 /* SignUpPresenterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA162D672ADAAFE80012C414 /* SignUpPresenterTest.swift */; };
+		BA1F6E842ADB29F2002683F9 /* SignUpMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1F6E832ADB29F2002683F9 /* SignUpMapper.swift */; };
+		BA1F6E862ADB2A9C002683F9 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1F6E852ADB2A9C002683F9 /* SignUpViewModel.swift */; };
 		BA35050E2ADAE44F00B7443C /* AccountModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4206B12AD0B83100772934 /* AccountModelFactory.swift */; };
 		BA35050F2ADAF3B300B7443C /* TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4206AA2AD0B67E00772934 /* TestExtensions.swift */; };
 		BA3505112ADAFD7C00B7443C /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3505102ADAFD7C00B7443C /* LoadingView.swift */; };
@@ -112,6 +114,8 @@
 		BA162D5B2ADAAFE70012C414 /* Presentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Presentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA162D622ADAAFE70012C414 /* PresentationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PresentationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA162D672ADAAFE80012C414 /* SignUpPresenterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPresenterTest.swift; sourceTree = "<group>"; };
+		BA1F6E832ADB29F2002683F9 /* SignUpMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpMapper.swift; sourceTree = "<group>"; };
+		BA1F6E852ADB2A9C002683F9 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		BA3505102ADAFD7C00B7443C /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		BA4206AA2AD0B67E00772934 /* TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestExtensions.swift; sourceTree = "<group>"; };
 		BA4206AC2AD0B6E400772934 /* TestsFactorys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsFactorys.swift; sourceTree = "<group>"; };
@@ -224,6 +228,16 @@
 			path = PresentationTests;
 			sourceTree = "<group>";
 		};
+		BA1F6E822ADB29B8002683F9 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				BAC278832ADAC5D1004E5795 /* SignUpPresenter.swift */,
+				BA1F6E832ADB29F2002683F9 /* SignUpMapper.swift */,
+				BA1F6E852ADB2A9C002683F9 /* SignUpViewModel.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
 		BA4206A92AD0B64500772934 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -279,7 +293,7 @@
 			isa = PBXGroup;
 			children = (
 				BAC2788C2ADACBAD004E5795 /* Validators */,
-				BAC278832ADAC5D1004E5795 /* SignUpPresenter.swift */,
+				BA1F6E822ADB29B8002683F9 /* SignUp */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -762,7 +776,9 @@
 			files = (
 				BAC278842ADAC5D1004E5795 /* SignUpPresenter.swift in Sources */,
 				BA3505112ADAFD7C00B7443C /* LoadingView.swift in Sources */,
+				BA1F6E842ADB29F2002683F9 /* SignUpMapper.swift in Sources */,
 				BAC278872ADAC6E2004E5795 /* AlertView.swift in Sources */,
+				BA1F6E862ADB2A9C002683F9 /* SignUpViewModel.swift in Sources */,
 				BAC2788E2ADACBBC004E5795 /* EmailValidator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

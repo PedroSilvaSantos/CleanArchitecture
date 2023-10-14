@@ -21,7 +21,7 @@ public final class SignUpPresenter {
             alertView.showMessagem(viewModel: AlertViewModel(title: "Falha na validacao", message: message))
         } else {
             //transfomando o SignUpViewModel em um AddAccountModel
-            let addAccountModel = AddAccountModel(name: viewModel.name!, email: viewModel.email!, password: viewModel.password!, passwordConfirmation: viewModel.confirmPassword!)
+            let addAccountModel = SignUpMapper.mapToaddAccountModel(viewModel: viewModel)
             loadingView.display(viewModel: LoadingViewModel(isLoading: true))
             addAccount.addAccount(addAccountModel: addAccountModel) { [weak self] result in
                 guard let self = self else { return }
@@ -52,19 +52,3 @@ public final class SignUpPresenter {
         return nil
     }
 }
-
-
-public struct SignUpViewModel {
-      public var name: String?
-      public var email: String?
-      public var password: String?
-      public var confirmPassword: String?
-    
-    public init(name: String?, email: String?, password: String?, confirmPassword: String?) {
-        self.name = name
-        self.email = email
-        self.password = password
-        self.confirmPassword = confirmPassword
-    }
-}
-
