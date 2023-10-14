@@ -48,6 +48,8 @@
 		BACFD9062ACFB6B90016FA0C /* DomainError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACFD9052ACFB6B90016FA0C /* DomainError.swift */; };
 		BACFD9082ACFB93A0016FA0C /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACFD9072ACFB93A0016FA0C /* HttpError.swift */; };
 		BACFD90B2ACFC6A60016FA0C /* ExtensionHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACFD90A2ACFC6A60016FA0C /* ExtensionHelpers.swift */; };
+		BACFDF2C2ADB3FFC00A53949 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACFDF2B2ADB3FFC00A53949 /* SignUpViewController.swift */; };
+		BACFDF2E2ADB404600A53949 /* SignUp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BACFDF2D2ADB404600A53949 /* SignUp.storyboard */; };
 		BAD46E362AD1E51A00D79782 /* TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4206AA2AD0B67E00772934 /* TestExtensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -165,6 +167,8 @@
 		BACFD9052ACFB6B90016FA0C /* DomainError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainError.swift; sourceTree = "<group>"; };
 		BACFD9072ACFB93A0016FA0C /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
 		BACFD90A2ACFC6A60016FA0C /* ExtensionHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionHelpers.swift; sourceTree = "<group>"; };
+		BACFDF2B2ADB3FFC00A53949 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		BACFDF2D2ADB404600A53949 /* SignUp.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignUp.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -356,6 +360,8 @@
 		BA52CB822ADB33FC007F69AB /* iOSUI */ = {
 			isa = PBXGroup;
 			children = (
+				BACFDF2B2ADB3FFC00A53949 /* SignUpViewController.swift */,
+				BACFDF2D2ADB404600A53949 /* SignUp.storyboard */,
 			);
 			path = iOSUI;
 			sourceTree = "<group>";
@@ -812,6 +818,7 @@
 					};
 					BA52CB802ADB33FB007F69AB = {
 						CreatedOnToolsVersion = 14.3;
+						LastSwiftMigration = 1430;
 					};
 					BA52CB872ADB33FC007F69AB = {
 						CreatedOnToolsVersion = 14.3;
@@ -895,6 +902,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BACFDF2E2ADB404600A53949 /* SignUp.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -987,6 +995,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BACFDF2C2ADB3FFC00A53949 /* SignUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1299,6 +1308,7 @@
 		BA52CB902ADB33FC007F69AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1325,6 +1335,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -1332,6 +1343,7 @@
 		BA52CB912ADB33FC007F69AB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1365,6 +1377,7 @@
 		BA52CB922ADB33FC007F69AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1382,6 +1395,7 @@
 		BA52CB932ADB33FC007F69AB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
