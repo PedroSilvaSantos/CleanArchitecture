@@ -6,11 +6,13 @@ public final class SignUpPresenter {
     private let alertView: AlertView //protocolo que o controller precisará assinar
     private let emailValidator: EmailValidator //protocolo que o controller precisará assinar
     private let addAccount: AddAccount
+    private let loadingView: LoadingView
     
-    public init(alertView: AlertView, emailValidator: EmailValidator, addAccount: AddAccount) {
+    public init(alertView: AlertView, emailValidator: EmailValidator, addAccount: AddAccount, loadingView: LoadingView) {
         self.alertView = alertView
         self.emailValidator = emailValidator
         self.addAccount = addAccount
+        self.loadingView = loadingView
     }
 
     public func signUp(viewModel: SignUpViewModel) {
@@ -20,6 +22,7 @@ public final class SignUpPresenter {
         } else {
             //transfomando o SignUpViewModel em um AddAccountModel
             let addAccountModel = AddAccountModel(name: viewModel.name!, email: viewModel.email!, password: viewModel.password!, passwordConfirmation: viewModel.confirmPassword!)
+            loadingView.display(viewModel: LoadingViewModel(isLoading: true))
             addAccount.addAccount(addAccountModel: addAccountModel) { [weak self] result in
                 guard let self = self else { return }
                 switch result {

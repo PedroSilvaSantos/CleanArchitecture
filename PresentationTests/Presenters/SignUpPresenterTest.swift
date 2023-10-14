@@ -97,23 +97,13 @@ class SignUpPresenterTest: XCTestCase {
         wait(for: [exp], timeout: 1)
     }
     
-//    func test_signUp_should_call_addAccount_with_correct_values() {
-//        //validando o add account
-//        let alertViewSpy = AlertViewSpy()
-//        let addAccountSpy = AddAccountSpy()
-//        let sut = makeSut(addAccount: addAccountSpy)
-//        let signUpViewModel = makeSignUpViewModel()
-//        let exp = expectation(description: "waiting")
-//
-//        alertViewSpy.observe { viewModel in
-//            XCTAssertNotNil(viewModel)
-//            exp.fulfill()
-//        }
-//        sut.signUp(viewModel: signUpViewModel)
-//        wait(for: [exp], timeout: 1)
-//        }
-    
-    
+    func test_signUp_should_call_addAccount_with_correct_values() {
+        //validando o add account
+        let addAccountSpy = AddAccountSpy()
+        let sut = makeSut(addAccount: addAccountSpy)
+        sut.signUp(viewModel:  makeSignUpViewModel())
+        XCTAssertEqual(addAccountSpy.addAccountModel, makeAddAccountModel())
+        }
     
     func test_signUp_should_show_error_message_if_addAccount_fails() {
         let alertViewSpy = AlertViewSpy()
@@ -131,6 +121,13 @@ class SignUpPresenterTest: XCTestCase {
         addAccountSpy.completeWithError(.unexpected)
         wait(for: [exp], timeout: 1)
       }
+    
+    func test_signUp_should_show_loading_if_before_call_addAccount() {
+        let loadingViewSpy = LoadingViewSpy()
+        let sut = makeSut(loadingView: loadingViewSpy)
+        sut.signUp(viewModel: makeSignUpViewModel())
+        XCTAssertEqual(loadingViewSpy.viewModel, LoadingViewModel.init(isLoading: true))
+      }
     }
                    
     extension SignUpPresenterTest {
@@ -143,8 +140,8 @@ class SignUpPresenterTest: XCTestCase {
             //        return (sut, alertViewSpy, emailValidator)
             //    }
             
-        func makeSut(alertView: AlertView = AlertViewSpy(), emailValidator: EmailValidator = EmailValidatorSpy(), addAccount: AddAccountSpy = AddAccountSpy(), file: StaticString = #file, line: UInt = #line) -> SignUpPresenter {
-        let sut = SignUpPresenter(alertView: alertView, emailValidator: emailValidator, addAccount: addAccount)//injetando o protocol para comunicar com a controller
+    func makeSut(alertView: AlertView = AlertViewSpy(), emailValidator: EmailValidator = EmailValidatorSpy(), addAccount: AddAccountSpy = AddAccountSpy(), loadingView: LoadingViewSpy = LoadingViewSpy(), file: StaticString = #file, line: UInt = #line) -> SignUpPresenter {
+        let sut = SignUpPresenter(alertView: alertView, emailValidator: emailValidator, addAccount: addAccount, loadingView: loadingView)//injetando o protocol para comunicar com a controller
         checkMemoryLeak(for: sut, file: file, line: line)
         return (sut)
     }
@@ -160,7 +157,7 @@ class SignUpPresenterTest: XCTestCase {
     func makeInvalidAlertViewModel(title: String = "Falha na validacao", message: String) -> AlertViewModel {
                 return AlertViewModel(title: title, message: message)
             }
-            
+        
             
             //Dessa forma que o meu presenter se comunica com a controller
     class AlertViewSpy: AlertView {
@@ -204,4 +201,16 @@ class SignUpPresenterTest: XCTestCase {
             completion?(.failure(error))
         }
     }
+        
+        class LoadingViewSpy: LoadingView {
+            var viewModel: LoadingViewModel?
+            
+            init(viewModel: LoadingViewModel? = nil) {
+                self.viewModel = viewModel
+            }
+            func display(viewModel: LoadingViewModel){
+                self.viewModel = viewModel
+        }
+    }
 }
+        
