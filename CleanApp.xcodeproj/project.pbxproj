@@ -50,6 +50,8 @@
 		BACFD90B2ACFC6A60016FA0C /* ExtensionHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACFD90A2ACFC6A60016FA0C /* ExtensionHelpers.swift */; };
 		BACFDF2C2ADB3FFC00A53949 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACFDF2B2ADB3FFC00A53949 /* SignUpViewController.swift */; };
 		BACFDF2E2ADB404600A53949 /* SignUp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BACFDF2D2ADB404600A53949 /* SignUp.storyboard */; };
+		BACFDF2F2ADB42B800A53949 /* Presentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA162D5B2ADAAFE70012C414 /* Presentation.framework */; };
+		BACFDF302ADB42B800A53949 /* Presentation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BA162D5B2ADAAFE70012C414 /* Presentation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BAD46E362AD1E51A00D79782 /* TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4206AA2AD0B67E00772934 /* TestExtensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -110,6 +112,13 @@
 			remoteGlobalIDString = BACFD8C92ACF52030016FA0C;
 			remoteInfo = Domain;
 		};
+		BACFDF312ADB42B900A53949 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BACFD8B22ACF50C50016FA0C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BA162D5A2ADAAFE70012C414;
+			remoteInfo = Presentation;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -120,6 +129,17 @@
 			dstSubfolderSpec = 10;
 			files = (
 				BACFD8F22ACF6DF50016FA0C /* Domain.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BACFDF332ADB42B900A53949 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BACFDF302ADB42B800A53949 /* Presentation.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,6 +227,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BACFDF2F2ADB42B800A53949 /* Presentation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -688,10 +709,12 @@
 				BA52CB7D2ADB33FB007F69AB /* Sources */,
 				BA52CB7E2ADB33FB007F69AB /* Frameworks */,
 				BA52CB7F2ADB33FB007F69AB /* Resources */,
+				BACFDF332ADB42B900A53949 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BACFDF322ADB42B900A53949 /* PBXTargetDependency */,
 			);
 			name = iOSUI;
 			productName = iOSUI;
@@ -1091,6 +1114,11 @@
 			isa = PBXTargetDependency;
 			target = BACFD8C92ACF52030016FA0C /* Domain */;
 			targetProxy = BACFD8F32ACF6DF50016FA0C /* PBXContainerItemProxy */;
+		};
+		BACFDF322ADB42B900A53949 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BA162D5A2ADAAFE70012C414 /* Presentation */;
+			targetProxy = BACFDF312ADB42B900A53949 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
