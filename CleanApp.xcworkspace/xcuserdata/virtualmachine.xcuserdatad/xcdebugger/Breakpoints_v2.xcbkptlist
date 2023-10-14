@@ -62,8 +62,8 @@
             filePath = "DataTests/UseCases/RemoteAddAccountTests.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "expect(_:completWith:when:file:line:)"
             landmarkType = "7">
             <Locations>
@@ -103,32 +103,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "24D3DB5A-00C5-4B86-BF64-2885EC4E2F64"
+            uuid = "8FDC105B-3256-4761-B8A6-316C2F719D15"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Presentation/Presenters/SignUpPresenter.swift"
+            filePath = "PresentationTests/Presenters/SignUpPresenterTest.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "15"
-            endingLineNumber = "15"
-            landmarkName = "signUp(viewModel:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "10C656E4-B354-45C3-B77A-BCF308CB498E"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Presentation/Presenters/SignUpPresenter.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "validation(viewModel:)"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
+            landmarkName = "addAccount(addAccountModel:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

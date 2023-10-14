@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BA162D632ADAAFE80012C414 /* Presentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA162D5B2ADAAFE70012C414 /* Presentation.framework */; };
 		BA162D682ADAAFE80012C414 /* SignUpPresenterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA162D672ADAAFE80012C414 /* SignUpPresenterTest.swift */; };
+		BA35050E2ADAE44F00B7443C /* AccountModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4206B12AD0B83100772934 /* AccountModelFactory.swift */; };
 		BA4206AB2AD0B67E00772934 /* TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4206AA2AD0B67E00772934 /* TestExtensions.swift */; };
 		BA4206AD2AD0B6E400772934 /* TestsFactorys.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4206AC2AD0B6E400772934 /* TestsFactorys.swift */; };
 		BA4206B02AD0B7C700772934 /* HttpClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4206AF2AD0B7C700772934 /* HttpClientSpy.swift */; };
@@ -765,6 +766,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA35050E2ADAE44F00B7443C /* AccountModelFactory.swift in Sources */,
 				BA162D682ADAAFE80012C414 /* SignUpPresenterTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
