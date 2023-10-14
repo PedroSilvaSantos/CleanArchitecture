@@ -9,10 +9,13 @@ class SignUpPresenter {
     }
     
     func signUp(viewModel: SignUpViewModel) {
-        
         //será chamado quando a propriedade name gerar error
         if viewModel.name == nil || viewModel.name!.isEmpty {
             alertView.showMessagem(viewModel: AlertViewModel(title: "Falha na validacao", message: "O campo Nome é obrigatorio"))
+        } else if viewModel.email == nil || viewModel.email!.isEmpty {
+            alertView.showMessagem(viewModel: AlertViewModel(title: "Falha na validacao", message: "O campo E-mail é obrigatorio"))
+        } else if viewModel.password == nil || viewModel.password!.isEmpty {
+            alertView.showMessagem(viewModel: AlertViewModel(title: "Falha na validacao", message: "O campo Senha é obrigatorio"))
         }
     }
 }
@@ -46,10 +49,21 @@ final class SignUpPresenterTest: XCTestCase {
         let signUpViewModel = SignUpViewModel(email: "any_email@mail.com", password: "any_password", confirmPassword: "any_password")
         sut.signUp(viewModel: signUpViewModel)
         XCTAssertEqual(alertViewSpy.viewModel, AlertViewModel(title: "Falha na validacao", message: "O campo Nome é obrigatorio"))
-        
     }
     
+    func test_signUp_shold_show_error_message_is_email_not_provider() {
+        let (sut, alertViewSpy) = makeSut()
+        let signUpViewModel = SignUpViewModel(name: "any_name", password: "any_password", confirmPassword: "any_password")
+        sut.signUp(viewModel: signUpViewModel)
+        XCTAssertEqual(alertViewSpy.viewModel, AlertViewModel(title: "Falha na validacao", message: "O campo E-mail é obrigatorio"))
+    }
     
+    func test_signUp_shold_show_error_message_is_password_not_provider() {
+        let (sut, alertViewSpy) = makeSut()
+        let signUpViewModel = SignUpViewModel(name: "any_name", email: "any_email@mail.com")
+        sut.signUp(viewModel: signUpViewModel)
+        XCTAssertEqual(alertViewSpy.viewModel, AlertViewModel(title: "Falha na validacao", message: "O campo Senha é obrigatorio"))
+    }
 }
 
 extension SignUpPresenterTest {
