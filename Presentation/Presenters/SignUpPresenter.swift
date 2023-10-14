@@ -20,7 +20,8 @@ public final class SignUpPresenter {
         } else {
             //transfomando o SignUpViewModel em um AddAccountModel
             let addAccountModel = AddAccountModel(name: viewModel.name!, email: viewModel.email!, password: viewModel.password!, passwordConfirmation: viewModel.confirmPassword!)
-            addAccount.addAccount(addAccountModel: addAccountModel) { result in
+            addAccount.addAccount(addAccountModel: addAccountModel) { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .failure: self.alertView.showMessagem(viewModel: AlertViewModel(title: "Erro", message: "Algo inesperado aconteceu, tente novamente em alguns instantes."))
                 case .success(_): break

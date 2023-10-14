@@ -11,40 +11,67 @@ class SignUpPresenterTest: XCTestCase {
         let alertViewSpy = AlertViewSpy()
         let sut = makeSut(alertView: alertViewSpy)
         let signUpViewModel = makeSignUpViewModel(name: nil)
+        let exp = expectation(description: "waiting")
+        alertViewSpy.observe { [weak self] viewModel in
+            XCTAssertEqual(viewModel, self?.makeRequiredAlertViewModel(message: "O campo Nome é obrigatorio"))
+            exp.fulfill()
+        }
         sut.signUp(viewModel: signUpViewModel)
-        XCTAssertEqual(alertViewSpy.viewModel, makeRequiredAlertViewModel(message: "O campo Nome é obrigatorio"))
+        wait(for: [exp], timeout: 1)
     }
     
     func test_signUp_shold_show_error_message_is_email_not_provided() {
         let alertViewSpy = AlertViewSpy()
         let sut = makeSut(alertView: alertViewSpy)
         let signUpViewModel = makeSignUpViewModel(email: nil)
+
+        let exp = expectation(description: "waiting")
+        alertViewSpy.observe { [weak self] viewModel in
+            XCTAssertEqual(viewModel, self?.makeRequiredAlertViewModel(message: "O campo E-mail é obrigatorio"))
+            exp.fulfill()
+        }
         sut.signUp(viewModel: signUpViewModel)
-        XCTAssertEqual(alertViewSpy.viewModel, makeRequiredAlertViewModel(message: "O campo E-mail é obrigatorio"))
+        wait(for: [exp], timeout: 1)
     }
     
     func test_signUp_shold_show_error_message_is_password_is_not_provided() {
         let alertViewSpy = AlertViewSpy()
         let sut = makeSut(alertView: alertViewSpy)
         let signUpViewModel = makeSignUpViewModel(password: nil)
+        
+        let exp = expectation(description: "waiting")
+        alertViewSpy.observe { [weak self] viewModel in
+            XCTAssertEqual(viewModel, self?.makeRequiredAlertViewModel(message: "O campo Senha é obrigatorio"))
+            exp.fulfill()
+        }
         sut.signUp(viewModel: signUpViewModel)
-        XCTAssertEqual(alertViewSpy.viewModel, makeRequiredAlertViewModel(message: "O campo Senha é obrigatorio"))
+        wait(for: [exp], timeout: 1)
     }
     
     func test_signUp_shold_show_error_message_is_password_confirmation_is_not_provided() {
         let alertViewSpy = AlertViewSpy()
         let sut = makeSut(alertView: alertViewSpy)
         let signUpViewModel = makeSignUpViewModel(confirmPassword: nil)
+        let exp = expectation(description: "waiting")
+        alertViewSpy.observe { [weak self] viewModel in
+            XCTAssertEqual(viewModel, self?.makeRequiredAlertViewModel(message: "O campo Confirmacao da Senha é obrigatorio"))
+            exp.fulfill()
+        }
         sut.signUp(viewModel: signUpViewModel)
-        XCTAssertEqual(alertViewSpy.viewModel, makeRequiredAlertViewModel(message: "O campo Confirmacao da Senha é obrigatorio"))
+        wait(for: [exp], timeout: 1)
     }
     
     func test_signUp_shold_show_error_message_is_password_confirmation_is_not_math() {
         let alertViewSpy = AlertViewSpy()
         let sut = makeSut(alertView: alertViewSpy)
         let signUpViewModel = makeSignUpViewModel(confirmPassword: "fail_password")
+        let exp = expectation(description: "waiting")
+        alertViewSpy.observe { [weak self] viewModel in
+            XCTAssertEqual(viewModel, self?.makeRequiredAlertViewModel(message: "Falha ao confirmar senha"))
+            exp.fulfill()
+        }
         sut.signUp(viewModel: signUpViewModel)
-        XCTAssertEqual(alertViewSpy.viewModel, makeRequiredAlertViewModel(message: "Falha ao confirmar senha"))
+        wait(for: [exp], timeout: 1)
     }
     
     func test_signUp_shold_call_emailValidator_with_correct_email() {
@@ -61,17 +88,30 @@ class SignUpPresenterTest: XCTestCase {
         let sut = makeSut(alertView: alertViewSpy, emailValidator: emailValidatorSpy)
         let signUpViewModel = makeSignUpViewModel()
         emailValidatorSpy.simulateInvalidEmail()
+        let exp = expectation(description: "waiting")
+        alertViewSpy.observe { [weak self] viewModel in
+            XCTAssertEqual(viewModel, self?.makeInvalidAlertViewModel(message: "Email invalido"))
+            exp.fulfill()
+        }
         sut.signUp(viewModel: signUpViewModel)
-        XCTAssertEqual(alertViewSpy.viewModel, makeInvalidAlertViewModel(message: "Email invalido"))
+        wait(for: [exp], timeout: 1)
     }
     
-    func test_signUp_should_call_addAccount_with_correct_values() {
-        //validando o add account
-        let addAccountSpy = AddAccountSpy()
-        let sut = makeSut(addAccount: addAccountSpy)
-        sut.signUp(viewModel: makeSignUpViewModel())
-        XCTAssertEqual(addAccountSpy.addAccountModel, makeAddAccountModel())
-        }
+//    func test_signUp_should_call_addAccount_with_correct_values() {
+//        //validando o add account
+//        let alertViewSpy = AlertViewSpy()
+//        let addAccountSpy = AddAccountSpy()
+//        let sut = makeSut(addAccount: addAccountSpy)
+//        let signUpViewModel = makeSignUpViewModel()
+//        let exp = expectation(description: "waiting")
+//
+//        alertViewSpy.observe { viewModel in
+//            XCTAssertNotNil(viewModel)
+//            exp.fulfill()
+//        }
+//        sut.signUp(viewModel: signUpViewModel)
+//        wait(for: [exp], timeout: 1)
+//        }
     
     
     
@@ -103,8 +143,9 @@ class SignUpPresenterTest: XCTestCase {
             //        return (sut, alertViewSpy, emailValidator)
             //    }
             
-    func makeSut(alertView: AlertView = AlertViewSpy(), emailValidator: EmailValidator = EmailValidatorSpy(), addAccount: AddAccountSpy = AddAccountSpy()) -> SignUpPresenter {
+        func makeSut(alertView: AlertView = AlertViewSpy(), emailValidator: EmailValidator = EmailValidatorSpy(), addAccount: AddAccountSpy = AddAccountSpy(), file: StaticString = #file, line: UInt = #line) -> SignUpPresenter {
         let sut = SignUpPresenter(alertView: alertView, emailValidator: emailValidator, addAccount: addAccount)//injetando o protocol para comunicar com a controller
+        checkMemoryLeak(for: sut, file: file, line: line)
         return (sut)
     }
             

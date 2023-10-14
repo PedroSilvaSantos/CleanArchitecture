@@ -110,10 +110,90 @@
             filePath = "PresentationTests/Presenters/SignUpPresenterTest.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "test_signUp_should_show_error_message_if_addAccount_fails()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F28B7E49-3A1D-4E85-8799-4AE44F3ABA1A - 29c33046e7097869"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Presentation.AlertViewModel) -&gt; () in PresentationTests.SignUpPresenterTest.test_signUp_should_show_error_message_if_addAccount_fails() -&gt; ()"
+                  moduleName = "PresentationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/virtualmachine/Documents/Learning/CleanArchitecture/PresentationTests/Presenters/SignUpPresenterTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "160">
+               </Location>
+               <Location
+                  uuid = "F28B7E49-3A1D-4E85-8799-4AE44F3ABA1A - 29c33046e7097741"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Presentation.AlertViewModel) -&gt; () in PresentationTests.SignUpPresenterTest.test_signUp_should_show_error_message_if_addAccount_fails() -&gt; ()"
+                  moduleName = "PresentationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/virtualmachine/Documents/Learning/CleanArchitecture/PresentationTests/Presenters/SignUpPresenterTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "127"
+                  endingLineNumber = "127"
+                  offsetFromSymbolStart = "160">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "65F24B30-314D-4030-B196-3C67C4932AAE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PresentationTests/Presenters/SignUpPresenterTest.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "test_signUp_should_call_addAccount_with_correct_values()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "65F24B30-314D-4030-B196-3C67C4932AAE - 5685d2a6d981a53b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PresentationTests.SignUpPresenterTest.test_signUp_should_call_addAccount_with_correct_values() -&gt; ()"
+                  moduleName = "PresentationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/virtualmachine/Documents/Learning/CleanArchitecture/PresentationTests/Presenters/SignUpPresenterTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "108"
+                  endingLineNumber = "108"
+                  offsetFromSymbolStart = "464">
+               </Location>
+               <Location
+                  uuid = "65F24B30-314D-4030-B196-3C67C4932AAE - 3707369517655d35"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Presentation.AlertViewModel) -&gt; () in PresentationTests.SignUpPresenterTest.test_signUp_should_call_addAccount_with_correct_values() -&gt; ()"
+                  moduleName = "PresentationTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/virtualmachine/Documents/Learning/CleanArchitecture/PresentationTests/Presenters/SignUpPresenterTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109"
+                  offsetFromSymbolStart = "136">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
