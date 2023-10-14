@@ -42,8 +42,7 @@ final class SignUpPresenterTest: XCTestCase {
     //load view
     //mostrar error ou sucesso
     func test_signUp_shold_show_error_message_is_name_not_provider() {
-        let alertViewSpy = AlertViewSpy()
-        let sut = SignUpPresenter(alertView: alertViewSpy)//injetando o protocol para comunicar com a controller
+        let (sut, alertViewSpy) = makeSut()
         let signUpViewModel = SignUpViewModel(email: "any_email@mail.com", password: "any_password", confirmPassword: "any_password")
         sut.signUp(viewModel: signUpViewModel)
         XCTAssertEqual(alertViewSpy.viewModel, AlertViewModel(title: "Falha na validacao", message: "O campo Nome é obrigatorio"))
@@ -54,6 +53,12 @@ final class SignUpPresenterTest: XCTestCase {
 }
 
 extension SignUpPresenterTest {
+    
+    func makeSut() -> (sut: SignUpPresenter, alertViewSpy: AlertViewSpy) {
+        let alertViewSpy = AlertViewSpy()
+        let sut = SignUpPresenter(alertView: alertViewSpy)//injetando o protocol para comunicar com a controller
+        return (sut, alertViewSpy)
+    }
     
     //Dessa forma que o meu presenter se comunica com a controller
     class AlertViewSpy: AlertView {
