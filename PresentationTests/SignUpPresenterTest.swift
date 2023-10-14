@@ -7,18 +7,26 @@ class SignUpPresenter {
     init(alertView: AlertView) {
         self.alertView = alertView
     }
-    
+
     func signUp(viewModel: SignUpViewModel) {
-        //será chamado quando a propriedade name gerar error
-        if viewModel.name == nil || viewModel.name!.isEmpty {
-            alertView.showMessagem(viewModel: AlertViewModel(title: "Falha na validacao", message: "O campo Nome é obrigatorio"))
-        } else if viewModel.email == nil || viewModel.email!.isEmpty {
-            alertView.showMessagem(viewModel: AlertViewModel(title: "Falha na validacao", message: "O campo E-mail é obrigatorio"))
-        } else if viewModel.password == nil || viewModel.password!.isEmpty {
-            alertView.showMessagem(viewModel: AlertViewModel(title: "Falha na validacao", message: "O campo Senha é obrigatorio"))
-        } else if viewModel.confirmPassword == nil || viewModel.confirmPassword!.isEmpty {
-            alertView.showMessagem(viewModel: AlertViewModel(title: "Falha na validacao", message: "O campo Confirmacao da Senha é obrigatorio"))
+        //Se o validade retornar um texto é porque existe um error
+        if let message = validation(viewModel: viewModel) {
+            alertView.showMessagem(viewModel: AlertViewModel(title: "Falha na validacao", message: message))
         }
+    }
+    
+    //tratando as messagens de erros caso falhe
+    private func validation(viewModel: SignUpViewModel) -> String? {
+        if viewModel.name == nil || viewModel.name!.isEmpty {
+            return "O campo Nome é obrigatorio"
+        } else if viewModel.email == nil || viewModel.email!.isEmpty {
+            return "O campo E-mail é obrigatorio"
+        } else if viewModel.password == nil || viewModel.password!.isEmpty {
+            return "O campo Senha é obrigatorio"
+        } else if viewModel.confirmPassword == nil || viewModel.confirmPassword!.isEmpty {
+            return "O campo Confirmacao da Senha é obrigatorio"
+        }
+        return nil
     }
 }
 
