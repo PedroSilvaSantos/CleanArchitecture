@@ -2,8 +2,8 @@ import Foundation
 
 public final class SignUpPresenter {
     
-    private let alertView: AlertView
-    private let emailValidator: EmailValidator
+    private let alertView: AlertView //protocolo que o controller precisará assinar
+    private let emailValidator: EmailValidator //protocolo que o controller precisará assinar
     
     public init(alertView: AlertView, emailValidator: EmailValidator) {
         self.alertView = alertView
@@ -14,6 +14,8 @@ public final class SignUpPresenter {
         //Se o validade retornar um texto é porque existe um error
         if let message = validation(viewModel: viewModel) {
             alertView.showMessagem(viewModel: AlertViewModel(title: "Falha na validacao", message: message))
+        } else {
+            
         }
     }
     
@@ -29,8 +31,9 @@ public final class SignUpPresenter {
             return "O campo Confirmacao da Senha é obrigatorio"
         } else if viewModel.password != viewModel.confirmPassword  {
             return "Falha ao confirmar senha"
+        } else if !emailValidator.isValid(email: viewModel.email!) { //se o email nao for valido devolve essa msg
+            return "Email invalido"
         }
-        _ = emailValidator.isValid(email: viewModel.email!)
         return nil
     }
 }
