@@ -72,6 +72,25 @@ class SignUpPresenterTest: XCTestCase {
         sut.signUp(viewModel: makeSignUpViewModel())
         XCTAssertEqual(addAccountSpy.addAccountModel, makeAddAccountModel())
         }
+    
+    
+    
+    func test_signUp_should_show_error_message_if_addAccount_fails() {
+        let alertViewSpy = AlertViewSpy()
+        let addAccountSpy = AddAccountSpy()
+        let sut = makeSut(alertView: alertViewSpy)
+        let signUpViewModel = makeSignUpViewModel(confirmPassword: nil)
+        
+        //como é assincrono, vamos utilizar o expectation
+        let exp = expectation(description: "waiting")
+        alertViewSpy.observe { [weak self] viewModel in
+            XCTAssertEqual(viewModel, self?.makeRequiredAlertViewModel(message: "O campo Confirmacao da Senha é obrigatorio"))
+            exp.fulfill()
+        }
+        sut.signUp(viewModel: signUpViewModel)
+        addAccountSpy.completeWithError(.unexpected)
+        wait(for: [exp], timeout: 1)
+      }
     }
                    
     extension SignUpPresenterTest {
@@ -105,11 +124,17 @@ class SignUpPresenterTest: XCTestCase {
             //Dessa forma que o meu presenter se comunica com a controller
     class AlertViewSpy: AlertView {
         var viewModel: AlertViewModel?
-                
+        //criando um observe para pode enviar mensagem dentro da resposta do callback
+        var emit: ((AlertViewModel) -> Void)?
+        func observe(completion: @escaping (AlertViewModel) -> Void) {
+            self.emit = completion
+        }
+        
         func showMessagem(viewModel: AlertViewModel) {
-            self.viewModel = viewModel
-                }
-            }
+            self.emit?(viewModel)
+            
+        }
+    }
             
     class EmailValidatorSpy: EmailValidator {//protocol EmailValidator
         var isValid = true
@@ -125,11 +150,17 @@ class SignUpPresenterTest: XCTestCase {
     }
             
     class AddAccountSpy: AddAccount {
-                
         var addAccountModel: AddAccountModel?
-                
+        var completion: ((Result<AccountModel, DomainError>) -> Void)?
+        
         func addAccount(addAccountModel: AddAccountModel, completion: @escaping (Result<AccountModel, DomainError>) -> Void) {
-                    self.addAccountModel = addAccountModel
-                }
-            }
+            self.addAccountModel = addAccountModel
+            self.completion = completion
         }
+        
+        //criando um help para executar o completion
+        func completeWithError(_ error: DomainError) {
+            completion?(.failure(error))
+        }
+    }
+}

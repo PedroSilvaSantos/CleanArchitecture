@@ -22,10 +22,8 @@ public final class SignUpPresenter {
             let addAccountModel = AddAccountModel(name: viewModel.name!, email: viewModel.email!, password: viewModel.password!, passwordConfirmation: viewModel.confirmPassword!)
             addAccount.addAccount(addAccountModel: addAccountModel) { result in
                 switch result {
-                case .success(_):
-                    print("Sucesso")
-                case .failure(_):
-                    print("Error")
+                case .failure: self.alertView.showMessagem(viewModel: AlertViewModel(title: "Erro", message: "Algo inesperado aconteceu, tente novamente em alguns instantes."))
+                case .success(_): break
                 }
             }
         }

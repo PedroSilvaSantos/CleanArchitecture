@@ -103,16 +103,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8FDC105B-3256-4761-B8A6-316C2F719D15"
+            uuid = "F28B7E49-3A1D-4E85-8799-4AE44F3ABA1A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PresentationTests/Presenters/SignUpPresenterTest.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
-            landmarkName = "addAccount(addAccountModel:completion:)"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
+            landmarkName = "test_signUp_should_show_error_message_if_addAccount_fails()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
