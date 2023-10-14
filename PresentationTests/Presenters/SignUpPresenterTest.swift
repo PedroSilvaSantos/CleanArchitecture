@@ -114,7 +114,7 @@ class SignUpPresenterTest: XCTestCase {
         //como é assincrono, vamos utilizar o expectation
         let exp = expectation(description: "waiting")
         alertViewSpy.observe { [weak self] viewModel in
-            XCTAssertEqual(viewModel, self?.makeRequiredAlertViewModel(message: "O campo Confirmacao da Senha é obrigatorio"))
+            XCTAssertEqual(viewModel, self?.makeInvalidAlertViewModel(message: "O campo Confirmacao da Senha é obrigatorio"))
             exp.fulfill()
         }
         sut.signUp(viewModel: signUpViewModel)
@@ -122,9 +122,35 @@ class SignUpPresenterTest: XCTestCase {
         wait(for: [exp], timeout: 1)
       }
     
-    func test_signUp_should_show_loading_if_before_call_addAccount() {
+    
+    func test_signUp_should_show_success_message_if_addAccount_succeeds() {
+        let alertViewSpy = AlertViewSpy()
+        let addAccountSpy = AddAccountSpy()
+        //como é assincrono, vamos utilizar o expectation
+        let exp = expectation(description: "waiting")
+        let sut = makeSut(alertView: alertViewSpy, addAccount: addAccountSpy)
+        let signUpViewModel = makeSignUpViewModel()
+        
+
+        alertViewSpy.observe { [weak self] viewModel in
+            XCTAssertEqual(viewModel, self?.makeSuccessAlertViewModel(message: "Conta criada com sucesso."))
+            exp.fulfill()
+        }
+        sut.signUp(viewModel: signUpViewModel)
+        
+        //Ocorrendo tudo certo, completar esse completion com isso
+        addAccountSpy.completeWithAccount(makeAccountModel())
+        wait(for: [exp], timeout: 1)
+      }
+    
+    func test_signUp_should_show_loading_before_call_after_addAccount() {
         let loadingViewSpy = LoadingViewSpy()
-        let sut = makeSut(loadingView: loadingViewSpy)
+        //####################################################################################"
+        //Injetando o AddAccount
+        let addAccountSpy = AddAccountSpy()
+        let sut = makeSut(addAccount: addAccountSpy, loadingView: loadingViewSpy)
+        //####################################################################################"
+        
         let exp = expectation(description: "waiting")
         loadingViewSpy.observe { viewModel in
             XCTAssertEqual(viewModel, LoadingViewModel.init(isLoading: true))
@@ -132,11 +158,21 @@ class SignUpPresenterTest: XCTestCase {
         exp.fulfill()
         sut.signUp(viewModel: makeSignUpViewModel())
         wait(for: [exp], timeout: 1)
+        
+        //###########Validando o loading view com status false#################################"
+        let exp2 = expectation(description: "waiting")
+        loadingViewSpy.observe { viewModel in
+            XCTAssertEqual(viewModel, LoadingViewModel.init(isLoading: false))
+        }
+        exp2.fulfill()
+        
+        //depois que executei tudo, vou executar esse aqui
+        addAccountSpy.completeWithError(.unexpected)
+        wait(for: [exp2], timeout: 1)
       }
     }
                    
     extension SignUpPresenterTest {
-            
             //Dois formato para devolver o SUT como uma Tupla
             //    func makeSut() -> (sut: SignUpPresenter, alertViewSpy: AlertViewSpy, emailValidator: EmailValidatorSpy) {
             //        let alertViewSpy = AlertViewSpy()
@@ -153,18 +189,21 @@ class SignUpPresenterTest: XCTestCase {
             
     func makeSignUpViewModel(name: String? = "any_name", email: String? = "any_email@mail.com", password: String? = "any_password", confirmPassword: String? = "any_password") -> SignUpViewModel {
         return SignUpViewModel(name: name, email: email, password: password, confirmPassword: confirmPassword)
-            }
+        }
             
     func makeRequiredAlertViewModel(title: String = "Falha na validacao", message: String) -> AlertViewModel {
         return AlertViewModel(title: title, message: message)
-            }
+        }
             
     func makeInvalidAlertViewModel(title: String = "Falha na validacao", message: String) -> AlertViewModel {
-                return AlertViewModel(title: title, message: message)
-            }
-        
+            return AlertViewModel(title: title, message: message)
+        }
+     
+    func makeSuccessAlertViewModel(message: String) -> AlertViewModel {
+            return AlertViewModel(title: "Sucesso", message: message)
+      }
             
-            //Dessa forma que o meu presenter se comunica com a controller
+    //Dessa forma que o meu presenter se comunica com a controller
     class AlertViewSpy: AlertView {
         var viewModel: AlertViewModel?
         //criando um observe para pode enviar mensagem dentro da resposta do callback
@@ -204,6 +243,10 @@ class SignUpPresenterTest: XCTestCase {
         //criando um help para executar o completion
         func completeWithError(_ error: DomainError) {
             completion?(.failure(error))
+        }
+        
+        func completeWithAccount(_ account: AccountModel) {
+            completion?(.success(account))
         }
     }
         
